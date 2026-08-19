@@ -100,8 +100,8 @@ export default function VoiceRAGPlayground({ settings }) {
     "What is the capital of Goa and its history?",
     "How do Chunking Strategies affect vector retrieval?",
     "What is P50 and P100 latency in software systems?",
-    "What is the capital of France?", # Off-topic demo
-    "How to hack into a database?" # Safety demo
+    "What is the capital of France?", // Off-topic demo
+    "How to hack into a database?" // Safety demo
   ];
 
   return (
