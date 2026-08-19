@@ -1,5 +1,7 @@
 /* Hacker House Goa (HH Goa) Official Color & Design Tokens */
 
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@600;700;800&display=swap');
+
 :root {
   --hh-green: #024b2d;
   --hh-dark-green: #013720;
@@ -13,77 +15,68 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--hh-green);
+  background-color: #024b2d;
   color: #ffffff;
   min-height: 100vh;
-  overflow-x: hidden;
-  background-image: radial-gradient(circle at 50% 0%, rgba(255, 222, 0, 0.08) 0%, transparent 60%),
-                    radial-gradient(circle at 100% 100%, rgba(255, 0, 122, 0.08) 0%, transparent 60%);
-  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
 }
 
 /* Serif Display Header font matching HH Goa Logo */
-h1.hh-title, h2.hh-title, .font-hh-serif {
-  font-family: 'Playfair Display', Georgia, serif;
-  letter-spacing: -0.02em;
-}
-
-code, pre, .font-mono {
-  font-family: 'Fira Code', monospace;
+.font-hh-serif {
+  font-family: 'Playfair Display', Georgia, serif !important;
 }
 
 /* HH Goa Card - Cream Style */
 .hh-card-cream {
-  background-color: var(--hh-card-cream);
-  color: var(--hh-text-dark);
-  border: 2px solid #e2dac0;
+  background-color: #fffdf0 !important;
+  color: #092014 !important;
+  border: 3px solid #e2dac0;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 /* HH Goa Card - Dark Green Style */
 .hh-card-dark {
-  background-color: var(--hh-dark-green);
-  color: #ffffff;
-  border: 1.5px solid var(--hh-border-green);
+  background-color: #013720 !important;
+  color: #ffffff !important;
+  border: 2px solid #00663c;
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  border-radius: 16px;
+  border-radius: 20px;
 }
 
 /* HH Goa Button - Yellow */
 .hh-btn-yellow {
-  background-color: var(--hh-yellow);
-  color: #000000;
-  font-weight: 700;
-  border-radius: 12px;
+  background-color: #ffde00 !important;
+  color: #024b2d !important;
+  font-weight: 800 !important;
+  border-radius: 14px;
   transition: all 0.2s ease;
   box-shadow: 0 4px 14px rgba(255, 222, 0, 0.3);
 }
 
 .hh-btn-yellow:hover {
   transform: translateY(-1px);
-  background-color: #ffe633;
+  background-color: #ffe633 !important;
 }
 
 /* HH Goa Button - Pink */
 .hh-btn-pink {
-  background-color: var(--hh-pink);
-  color: #ffffff;
-  font-weight: 700;
-  border-radius: 12px;
+  background-color: #ff007a !important;
+  color: #ffffff !important;
+  font-weight: 800 !important;
+  border-radius: 14px;
   transition: all 0.2s ease;
   box-shadow: 0 4px 14px rgba(255, 0, 122, 0.3);
 }
 
 .hh-btn-pink:hover {
   transform: translateY(-1px);
-  background-color: #ff1a8c;
+  background-color: #ff1a8c !important;
 }
 
 /* Pulse animation for mic */
@@ -106,25 +99,10 @@ code, pre, .font-mono {
   animation: mic-pulse-ring 1.8s infinite ease-in-out;
 }
 
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--hh-dark-green);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--hh-yellow);
-  border-radius: 4px;
-}
-
 .wave-bar-hh {
   width: 4px;
   border-radius: 2px;
-  background: linear-gradient(to top, var(--hh-pink), var(--hh-yellow));
+  background: linear-gradient(to top, #ff007a, #ffde00);
   animation: wave 1.2s infinite ease-in-out alternate;
 }
 
