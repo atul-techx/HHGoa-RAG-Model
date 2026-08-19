@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mic, MicOff, Volume2, Zap, ShieldCheck, ShieldAlert, Cpu, RefreshCw, Sparkles, CheckCircle2, AlertTriangle, ArrowRight, Play } from 'lucide-react';
+import { Mic, MicOff, Volume2, Zap, Cpu, RefreshCw, Sparkles, CheckCircle2, AlertTriangle, ArrowRight } from 'lucide-react';
 
 export default function VoiceRAGPlayground({ settings }) {
   const [isListening, setIsListening] = useState(false);
@@ -102,21 +102,21 @@ export default function VoiceRAGPlayground({ settings }) {
   ];
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto">
       
-      {/* Top Banner Card - HH Goa Cream Theme */}
+      {/* Voice Control & Main Search Card */}
       <div className="hh-card-cream p-6 sm:p-8 relative overflow-hidden border-4 border-[#e2dac0]">
         
         {/* Top Accent Strip */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#ff007a] via-[#ffde00] to-[#024b2d]"></div>
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
           
-          {/* Mic Button & Waveform */}
+          {/* Audio Visualizer & Mic Button */}
           <div className="flex flex-col items-center space-y-3 shrink-0">
             <button
               onClick={toggleListening}
-              className={`w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border-4 ${
+              className={`w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border-4 cursor-pointer ${
                 isListening
                   ? 'bg-[#ff007a] text-white mic-pulse border-[#ffde00]'
                   : 'bg-[#ffde00] hover:bg-[#ffe633] text-[#024b2d] border-[#024b2d]'
@@ -153,22 +153,23 @@ export default function VoiceRAGPlayground({ settings }) {
             )}
           </div>
 
-          {/* Voice Input Textarea & Strategy Selector */}
+          {/* Input & Controls Area */}
           <div className="flex-1 w-full space-y-4">
             
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            {/* Header Controls */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-2 border-b border-[#024b2d]/10">
               <label className="text-xs font-extrabold text-[#024b2d] uppercase tracking-wider flex items-center gap-2 font-mono">
                 <Sparkles className="w-4 h-4 text-[#ff007a]" />
                 Speech-to-Text Voice Stream
               </label>
 
-              {/* Strategy Selector */}
-              <div className="flex items-center space-x-2">
-                <span className="text-xs text-[#4a6855] font-bold">Chunking:</span>
+              {/* Chunking Selector */}
+              <div className="flex items-center space-x-2 w-full sm:w-auto">
+                <span className="text-xs text-[#4a6855] font-extrabold whitespace-nowrap">Chunking Strategy:</span>
                 <select
                   value={selectedStrategy}
                   onChange={(e) => setSelectedStrategy(e.target.value)}
-                  className="bg-[#024b2d] border-2 border-[#00663c] rounded-xl px-3 py-1.5 text-xs text-[#ffde00] font-bold focus:outline-none"
+                  className="bg-[#024b2d] border-2 border-[#00663c] rounded-xl px-3 py-1.5 text-xs text-[#ffde00] font-extrabold focus:outline-none max-w-full cursor-pointer"
                 >
                   <option value="semantic">Semantic Boundary (Recommended)</option>
                   <option value="overlap_optimized">Overlap-Optimized (200c/50o)</option>
@@ -179,50 +180,54 @@ export default function VoiceRAGPlayground({ settings }) {
               </div>
             </div>
 
-            {/* Input Box */}
-            <div className="relative">
+            {/* Input Box & Execute Button */}
+            <div className="space-y-3">
               <textarea
                 rows={3}
                 value={queryText}
                 onChange={(e) => setQueryText(e.target.value)}
-                placeholder="Spoken words will transcribe here automatically... or type a query..."
+                placeholder="Spoken words will transcribe here automatically... or type a question to test..."
                 className="w-full px-4 py-3.5 bg-white border-2 border-[#024b2d]/30 rounded-2xl text-[#092014] placeholder-slate-400 focus:outline-none focus:border-[#024b2d] text-sm font-sans resize-none shadow-inner"
               />
 
-              <button
-                onClick={() => handleExecuteQuery()}
-                disabled={isProcessing || !queryText.trim()}
-                className="absolute bottom-3.5 right-3.5 px-5 py-2.5 hh-btn-pink text-white font-extrabold text-xs rounded-xl flex items-center space-x-2 shadow-md transition disabled:opacity-50"
-              >
-                {isProcessing ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Processing Pipeline...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Run RAG Engine</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
+              <div className="flex justify-end">
+                <button
+                  onClick={() => handleExecuteQuery()}
+                  disabled={isProcessing || !queryText.trim()}
+                  className="px-6 py-3 hh-btn-pink text-white font-black text-xs rounded-xl flex items-center space-x-2 shadow-md transition disabled:opacity-50 cursor-pointer"
+                >
+                  {isProcessing ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>Running Pipeline...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Run RAG Pipeline</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
 
-            {/* Preset Query Chips - Designed like HH Goa directional signs */}
-            <div className="flex items-center space-x-2 overflow-x-auto pb-1">
-              <span className="text-[11px] text-[#4a6855] font-mono font-bold whitespace-nowrap">Presets:</span>
-              {sampleVoiceQueries.map((q, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    setQueryText(q);
-                    handleExecuteQuery(q);
-                  }}
-                  className="px-3 py-1 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-lg text-xs font-mono font-bold transition whitespace-nowrap border border-[#00663c]"
-                >
-                  {q}
-                </button>
-              ))}
+            {/* Preset Query Chips (Flex Wrap Container) */}
+            <div className="pt-2 border-t border-[#024b2d]/10 space-y-2">
+              <span className="text-xs text-[#4a6855] font-mono font-bold block">Quick Test Presets:</span>
+              <div className="flex flex-wrap gap-2">
+                {sampleVoiceQueries.map((q, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      setQueryText(q);
+                      handleExecuteQuery(q);
+                    }}
+                    className="px-3 py-1.5 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-xl text-xs font-mono font-bold transition border border-[#00663c] cursor-pointer hover:shadow-sm"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             </div>
 
           </div>
@@ -248,7 +253,7 @@ export default function VoiceRAGPlayground({ settings }) {
 
                 <button
                   onClick={() => speakAnswer(response.answer)}
-                  className="px-3 py-1.5 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-xl text-xs font-bold flex items-center space-x-1.5 transition"
+                  className="px-3 py-1.5 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-xl text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
                 >
                   <Volume2 className="w-4 h-4" />
                   <span>Audio Playback</span>
