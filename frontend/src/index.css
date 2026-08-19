@@ -1,16 +1,14 @@
-/* HH Goa 2026 Theme — Cyber Tropical Dark Aesthetics */
+/* Hacker House Goa (HH Goa) Official Color & Design Tokens */
 
 :root {
-  --bg-dark: #090d16;
-  --bg-card: rgba(15, 23, 42, 0.75);
-  --bg-card-hover: rgba(30, 41, 59, 0.85);
-  --pink-neon: #ff2a85;
-  --cyan-neon: #00f0ff;
-  --amber-neon: #ffb800;
-  --purple-neon: #9d4edd;
-  --border-neon: rgba(255, 42, 133, 0.25);
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --hh-green: #024b2d;
+  --hh-dark-green: #013720;
+  --hh-card-cream: #fffdf0;
+  --hh-yellow: #ffde00;
+  --hh-pink: #ff007a;
+  --hh-text-dark: #092014;
+  --hh-text-muted: #4a6855;
+  --hh-border-green: #00663c;
 }
 
 * {
@@ -21,74 +19,91 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(255, 42, 133, 0.12) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(0, 240, 255, 0.12) 0px, transparent 50%),
-    radial-gradient(at 50% 100%, rgba(157, 78, 221, 0.15) 0px, transparent 50%);
-  background-attachment: fixed;
+  background-color: var(--hh-green);
+  color: #ffffff;
   min-height: 100vh;
   overflow-x: hidden;
+  background-image: radial-gradient(circle at 50% 0%, rgba(255, 222, 0, 0.08) 0%, transparent 60%),
+                    radial-gradient(circle at 100% 100%, rgba(255, 0, 122, 0.08) 0%, transparent 60%);
+  background-attachment: fixed;
 }
 
-h1, h2, h3, h4, .font-heading {
-  font-family: 'Outfit', sans-serif;
+/* Serif Display Header font matching HH Goa Logo */
+h1.hh-title, h2.hh-title, .font-hh-serif {
+  font-family: 'Playfair Display', Georgia, serif;
+  letter-spacing: -0.02em;
 }
 
 code, pre, .font-mono {
   font-family: 'Fira Code', monospace;
 }
 
-/* Glassmorphism Card */
-.glass-panel {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+/* HH Goa Card - Cream Style */
+.hh-card-cream {
+  background-color: var(--hh-card-cream);
+  color: var(--hh-text-dark);
+  border: 2px solid #e2dac0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
   border-radius: 16px;
 }
 
-.glass-panel-glow {
-  background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-neon);
-  box-shadow: 0 0 20px rgba(255, 42, 133, 0.15);
+/* HH Goa Card - Dark Green Style */
+.hh-card-dark {
+  background-color: var(--hh-dark-green);
+  color: #ffffff;
+  border: 1.5px solid var(--hh-border-green);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
   border-radius: 16px;
 }
 
-/* HH Goa Neon Text Gradient */
-.gradient-text-goa {
-  background: linear-gradient(135deg, #ff2a85 0%, #ffb800 50%, #00f0ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* HH Goa Button - Yellow */
+.hh-btn-yellow {
+  background-color: var(--hh-yellow);
+  color: #000000;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(255, 222, 0, 0.3);
 }
 
-.gradient-text-cyan {
-  background: linear-gradient(135deg, #00f0ff 0%, #7000ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.hh-btn-yellow:hover {
+  transform: translateY(-1px);
+  background-color: #ffe633;
 }
 
-/* Pulse Glow Animation for Voice Mic */
-@keyframes pulse-ring {
+/* HH Goa Button - Pink */
+.hh-btn-pink {
+  background-color: var(--hh-pink);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(255, 0, 122, 0.3);
+}
+
+.hh-btn-pink:hover {
+  transform: translateY(-1px);
+  background-color: #ff1a8c;
+}
+
+/* Pulse animation for mic */
+@keyframes mic-pulse-ring {
   0% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 42, 133, 0.7);
+    box-shadow: 0 0 0 0 rgba(255, 222, 0, 0.7);
   }
   70% {
-    transform: scale(1.15);
-    box-shadow: 0 0 0 20px rgba(255, 42, 133, 0);
+    transform: scale(1.12);
+    box-shadow: 0 0 0 18px rgba(255, 222, 0, 0);
   }
   100% {
     transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(255, 42, 133, 0);
+    box-shadow: 0 0 0 0 rgba(255, 222, 0, 0);
   }
 }
 
-.mic-recording-pulse {
-  animation: pulse-ring 1.8s infinite ease-in-out;
+.mic-pulse {
+  animation: mic-pulse-ring 1.8s infinite ease-in-out;
 }
 
 /* Custom Scrollbar */
@@ -98,34 +113,29 @@ code, pre, .font-mono {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--hh-dark-green);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 42, 133, 0.3);
+  background: var(--hh-yellow);
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 240, 255, 0.5);
-}
-
-/* Waveform Bars */
-.wave-bar {
+.wave-bar-hh {
   width: 4px;
   border-radius: 2px;
-  background: linear-gradient(to top, var(--pink-neon), var(--cyan-neon));
+  background: linear-gradient(to top, var(--hh-pink), var(--hh-yellow));
   animation: wave 1.2s infinite ease-in-out alternate;
 }
 
 @keyframes wave {
   0% { height: 8px; }
-  100% { height: 40px; }
+  100% { height: 38px; }
 }
 
-.wave-bar:nth-child(2) { animation-delay: 0.1s; }
-.wave-bar:nth-child(3) { animation-delay: 0.2s; }
-.wave-bar:nth-child(4) { animation-delay: 0.3s; }
-.wave-bar:nth-child(5) { animation-delay: 0.4s; }
-.wave-bar:nth-child(6) { animation-delay: 0.2s; }
-.wave-bar:nth-child(7) { animation-delay: 0.1s; }
+.wave-bar-hh:nth-child(2) { animation-delay: 0.1s; }
+.wave-bar-hh:nth-child(3) { animation-delay: 0.2s; }
+.wave-bar-hh:nth-child(4) { animation-delay: 0.3s; }
+.wave-bar-hh:nth-child(5) { animation-delay: 0.4s; }
+.wave-bar-hh:nth-child(6) { animation-delay: 0.2s; }
+.wave-bar-hh:nth-child(7) { animation-delay: 0.1s; }
