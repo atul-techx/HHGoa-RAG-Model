@@ -1,0 +1,72 @@
+[
+  {
+    "id": "msmarco_doc_101",
+    "title": "What is Retrieval-Augmented Generation (RAG)?",
+    "text": "Retrieval-Augmented Generation (RAG) is an architectural framework that improves Large Language Model (LLM) responses by grounding the model on external knowledge bases. RAG combines vector retrieval engines with generative language models. During inference, the query is converted into an embedding, relevant passage chunks are retrieved from a vector database (such as FAISS, Qdrant, or HNSW index), and the context is prepended to the user prompt.",
+    "category": "Artificial Intelligence",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_102",
+    "title": "What is the capital of Goa and its history?",
+    "text": "Panaji, also known as Panjim, is the capital city of the Indian state of Goa. Situated on the banks of the Mandovi River, Panaji was officially declared the capital of Portuguese India in 1843 after replacing Old Goa. Goa is famous for its serene beaches, Portuguese architecture, vibrant nightlife, seafood cuisine, and hackathons like House of Hackers Goa (HH Goa).",
+    "category": "Geography & History",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_103",
+    "title": "How does Speech-to-Text (STT) transcription work?",
+    "text": "Speech-to-Text (STT) technology converts spoken audio waves into textual format using deep acoustic models, transformer encoders, and language decoders. Popular STT providers like Sarvam AI and ElevenLabs convert raw PCM audio or WebM streams into formatted transcripts in real time with high accuracy across multiple languages including English, Hindi, and regional dialects.",
+    "category": "Speech Processing",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_104",
+    "title": "What are optimal Chunking Strategies for Vector DBs?",
+    "text": "Chunking is the process of breaking long documents into smaller textual segments before generating embeddings. Naive fixed-size chunking splits text by token length. Overlap-optimized chunking preserves context across chunk boundaries. Semantic chunking uses sentence splitters and semantic density changes. Metadata-aware chunking retains document titles, passage IDs, and structural hierarchy to maximize vector retrieval precision.",
+    "category": "Information Retrieval",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_105",
+    "title": "What is P50, P70, and P100 Latency in Software Systems?",
+    "text": "Latency percentiles quantify system performance under real load. P50 (50th percentile or median) means 50% of requests completed faster than this threshold. P70 (70th percentile) represents the 70th percentile threshold. P100 (100th percentile) measures the absolute maximum worst-case latency observed across all benchmarked queries in the evaluation suite.",
+    "category": "Performance Engineering",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_106",
+    "title": "How do Guardrails prevent hallucinations in RAG?",
+    "text": "Guardrails are security and quality control filters wrapped around AI pipelines. Pre-retrieval guardrails classify query safety, detect prompt injections, and filter off-topic questions. Post-generation guardrails evaluate claims against retrieved context passages using semantic similarity and n-gram overlap. If the confidence score is below threshold, the guardrail forces the model to abstain and refuse to answer.",
+    "category": "AI Safety",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_107",
+    "title": "What is Sarvam AI and ElevenLabs STT capability?",
+    "text": "Sarvam AI specializes in Indic language foundational models and fast voice-to-text APIs tailored for Indian languages and English accents. ElevenLabs provides high-fidelity Speech Synthesis and real-time Speech-to-Text conversion with ultra-low latency streaming interfaces suitable for interactive voice agents.",
+    "category": "Speech Processing",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_108",
+    "title": "What is an Agent Harness in LLM Orchestration?",
+    "text": "An Agent Harness is an orchestration wrapper that manages LLM input/output lifecycle, tool invocation schemas, error recovery, exponential backoff retries, and fallback strategies. The harness ensures that raw prompt executions are converted into resilient, deterministic, production-grade workflows.",
+    "category": "AI Orchestration",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_109",
+    "title": "What is the Mandovi River in Goa?",
+    "text": "The Mandovi River, also known as the Mahadayi River, is described as the lifeline of the state of Goa. It enters Goa from Karnataka and flows westward for about 52 kilometers before emptying into the Arabian Sea at Panaji. Mandovi river cruises are famous tourist attractions in Goa.",
+    "category": "Geography",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "msmarco_doc_110",
+    "title": "What is MS MARCO Dataset?",
+    "text": "MS MARCO (Microsoft Machine Reading Comprehension) is a collection of large-scale datasets focused on deep learning for information retrieval, passage ranking, and question answering. MSMARCO-XI features passage collections aligned with Indian and global multilingual benchmarks.",
+    "category": "Datasets",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  }
+]
