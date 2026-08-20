@@ -32,7 +32,11 @@ class VectorRAGEngine:
 
     def _load_metadata_index(self):
         try:
-            if os.path.exists(METADATA_PATH):
+            from backend.dataset_loader import load_dataset
+            docs = load_dataset()
+            if docs:
+                self.index_documents(docs, strategy=self.current_strategy)
+            elif os.path.exists(METADATA_PATH):
                 with open(METADATA_PATH, "r", encoding="utf-8") as f:
                     self._indexed_chunks = json.load(f)
                 
@@ -48,6 +52,21 @@ class VectorRAGEngine:
 
     def index_documents(self, docs: List[Dict[str, Any]], strategy: str = "semantic") -> int:
         self.current_strategy = strategy
+        if not docs:
+            return len(self._indexed_chunks)
+
+        from backend.chunking import ChunkingEngine
+        all_chunks = []
+        for doc in docs:
+            chunks = ChunkingEngine.process_document(doc, strategy=strategy)
+            all_chunks.extend(chunks)
+
+        self._indexed_chunks = all_chunks
+        corpus = [c.get("text", "") for c in self._indexed_chunks]
+        if corpus:
+            self._vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
+            self._tfidf_matrix = self._vectorizer.fit_transform(corpus)
+
         return len(self._indexed_chunks)
 
     def retrieve(self, query: str, top_k: int = 3) -> Tuple[List[Dict[str, Any]], float]:

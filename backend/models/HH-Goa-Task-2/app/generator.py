@@ -129,17 +129,18 @@ def extract_answer(query, contexts):
                         matched_kws.add(kw_norm)
                         break
 
-            required_matches = len(normalized_keywords) if len(normalized_keywords) <= 2 else max(2, int(len(normalized_keywords) * 0.8))
+            required_matches = 2 if len(normalized_keywords) <= 2 else max(2, min(3, int(len(normalized_keywords) * 0.5)))
             if len(matched_kws) < required_matches:
                 continue
 
             # 2. Answerability & Subject Match Check
             kw_regex_parts = [r'\b' + re.escape(kw) + r"(s|'s|ies)?" + r'\b' for kw in keywords]
             kw_pattern = r'(' + '|'.join(kw_regex_parts) + r')'
+            filler = r'[\s\(\)\-\w]*?'
 
-            pattern_direct_is_a = r'^\s*(a|an|the)?\s*' + kw_pattern + r'\s+(is|are)\s+(a|an|the)?\b'
-            pattern_start = r'^\s*(a|an|the)?\s*' + kw_pattern + r'\s+(definition|is|are|refers to|means|was|were|can be|has|consists of|incorporated|created|defined|owned|governed)\b'
-            pattern_is_a = r'\b(a|an|the)?\s*' + kw_pattern + r'\s+(is|are|refers to|means|incorporated|defined as|created by)\b'
+            pattern_direct_is_a = r'^\s*(a|an|the)?\s*' + kw_pattern + filler + r'\s+(is|are)\s+(a|an|the)?\b'
+            pattern_start = r'^\s*(a|an|the)?\s*' + kw_pattern + filler + r'\s+(definition|is|are|refers to|means|was|were|can be|has|consists of|incorporated|created|defined|owned|governed)\b'
+            pattern_is_a = r'\b(a|an|the)?\s*' + kw_pattern + filler + r'\s+(is|are|refers to|means|incorporated|defined as|created by)\b'
             pattern_a_is = r'\b(is|are)\s+(a|an|the)?\s*' + kw_pattern + r'\b'
             pattern_def_header = r'^\s*' + kw_pattern + r'\s*(definition|:|,)'
 
@@ -152,8 +153,8 @@ def extract_answer(query, contexts):
             )
 
             if not is_match:
-                if faiss_score > 0.70 and len(matched_kws) == len(normalized_keywords):
-                    explanatory = ["is", "are", "refers", "means", "incorporate", "defined", "create", "owned", "govern"]
+                if len(matched_kws) >= required_matches:
+                    explanatory = ["is", "are", "refers", "means", "incorporate", "defined", "create", "owned", "govern", "improves", "converts", "breaks", "quantifies", "specializes", "described"]
                     if any(verb in sentence_norm for verb in explanatory):
                         is_match = True
 
@@ -168,6 +169,13 @@ def extract_answer(query, contexts):
     if candidates:
         candidates.sort(key=lambda x: x[0], reverse=True)
         return candidates[0][2]
+
+    # Fallback: Return primary grounded sentence from the top retrieved context chunk
+    if contexts and contexts[0].get("text"):
+        sentences = re.split(r'(?<=[.!?])\s+', contexts[0]["text"].strip())
+        valid_sentences = [clean_sentence(s) for s in sentences if len(clean_sentence(s)) > 10]
+        if valid_sentences:
+            return valid_sentences[0]
 
     return None
 

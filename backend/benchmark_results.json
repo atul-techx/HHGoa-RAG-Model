@@ -1,0 +1,57 @@
+{
+  "semantic": {
+    "overall_accuracy_pct": 100.0,
+    "in_domain_accuracy_pct": 100.0,
+    "off_topic_block_pct": 100.0,
+    "unsafe_block_pct": 100.0,
+    "p50_latency_ms": 4.4,
+    "p70_latency_ms": 5.41,
+    "p90_latency_ms": 8.22,
+    "p100_max_latency_ms": 10.74,
+    "under_200ms_pct": 100.0
+  },
+  "overlap_optimized": {
+    "overall_accuracy_pct": 100.0,
+    "in_domain_accuracy_pct": 100.0,
+    "off_topic_block_pct": 100.0,
+    "unsafe_block_pct": 100.0,
+    "p50_latency_ms": 2.93,
+    "p70_latency_ms": 4.7,
+    "p90_latency_ms": 6.13,
+    "p100_max_latency_ms": 10.1,
+    "under_200ms_pct": 100.0
+  },
+  "metadata_aware": {
+    "overall_accuracy_pct": 100.0,
+    "in_domain_accuracy_pct": 100.0,
+    "off_topic_block_pct": 100.0,
+    "unsafe_block_pct": 100.0,
+    "p50_latency_ms": 3.78,
+    "p70_latency_ms": 5.89,
+    "p90_latency_ms": 9.64,
+    "p100_max_latency_ms": 24.69,
+    "under_200ms_pct": 100.0
+  },
+  "hierarchical": {
+    "overall_accuracy_pct": 100.0,
+    "in_domain_accuracy_pct": 100.0,
+    "off_topic_block_pct": 100.0,
+    "unsafe_block_pct": 100.0,
+    "p50_latency_ms": 2.58,
+    "p70_latency_ms": 3.65,
+    "p90_latency_ms": 5.03,
+    "p100_max_latency_ms": 6.54,
+    "under_200ms_pct": 100.0
+  },
+  "fixed_size": {
+    "overall_accuracy_pct": 100.0,
+    "in_domain_accuracy_pct": 100.0,
+    "off_topic_block_pct": 100.0,
+    "unsafe_block_pct": 100.0,
+    "p50_latency_ms": 2.54,
+    "p70_latency_ms": 4.99,
+    "p90_latency_ms": 6.28,
+    "p100_max_latency_ms": 8.85,
+    "under_200ms_pct": 100.0
+  }
+}
