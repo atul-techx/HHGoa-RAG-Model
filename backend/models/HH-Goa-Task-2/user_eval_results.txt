@@ -1,0 +1,91 @@
+
+------------------------------------------------------------
+QUERY: what is the corporation?
+------------------------------------------------------------
+Answer: A corporation is a company or group of people authorized to act as a single entity (legally a person) and recognized as such in law.
+Grounded: True
+Method: local_context_answer
+Latency Breakdown:
+  Retrieval  : 24.99 ms
+  Reranking  : 0.0 ms
+  Answer     : 4.14 ms
+  Guardrails : 0.84 ms
+  Total RAG  : 30.0 ms
+
+------------------------------------------------------------
+QUERY: what is the coporation?
+------------------------------------------------------------
+Answer: A corporation is a company or group of people authorized to act as a single entity (legally a person) and recognized as such in law.
+Grounded: True
+Method: local_context_answer
+Latency Breakdown:
+  Retrieval  : 14.11 ms
+  Reranking  : 0.0 ms
+  Answer     : 1.84 ms
+  Guardrails : 0.12 ms
+  Total RAG  : 16.08 ms
+
+------------------------------------------------------------
+QUERY: what is a company?
+------------------------------------------------------------
+Answer: A company is incorporated in a specific nation, often within the bounds of a smaller subset of that nation, such as a state or province.
+Grounded: True
+Method: local_context_answer
+Latency Breakdown:
+  Retrieval  : 25.51 ms
+  Reranking  : 0.0 ms
+  Answer     : 4.17 ms
+  Guardrails : 0.13 ms
+  Total RAG  : 29.82 ms
+
+------------------------------------------------------------
+QUERY: what is artificial intelligence?
+------------------------------------------------------------
+Answer: I don't have enough information in the provided dataset to answer this question.
+Grounded: False
+Method: insufficient_context
+Latency Breakdown:
+  Retrieval  : 16.5 ms
+  Reranking  : 0.0 ms
+  Answer     : 9.0 ms
+  Guardrails : 0.02 ms
+  Total RAG  : 25.52 ms
+
+------------------------------------------------------------
+QUERY: what is a computer?
+------------------------------------------------------------
+Answer: I don't have enough information in the provided dataset to answer this question.
+Grounded: False
+Method: insufficient_context
+Latency Breakdown:
+  Retrieval  : 18.39 ms
+  Reranking  : 0.0 ms
+  Answer     : 3.69 ms
+  Guardrails : 0.03 ms
+  Total RAG  : 22.12 ms
+
+------------------------------------------------------------
+QUERY: what is machine learning?
+------------------------------------------------------------
+Answer: I don't have enough information in the provided dataset to answer this question.
+Grounded: False
+Method: insufficient_context
+Latency Breakdown:
+  Retrieval  : 18.27 ms
+  Reranking  : 0.0 ms
+  Answer     : 3.85 ms
+  Guardrails : 0.02 ms
+  Total RAG  : 22.15 ms
+
+------------------------------------------------------------
+QUERY: what is a database?
+------------------------------------------------------------
+Answer: I don't have enough information in the provided dataset to answer this question.
+Grounded: False
+Method: insufficient_context
+Latency Breakdown:
+  Retrieval  : 16.55 ms
+  Reranking  : 0.0 ms
+  Answer     : 3.02 ms
+  Guardrails : 0.02 ms
+  Total RAG  : 19.61 ms

@@ -1,0 +1,28 @@
+
+QUERY: 'what is the corporation?'
+RETRIEVED QUERY: 'what is the corporation?'
+EXTRACTED ANSWER: A corporation is a company or group of people authorized to act as a single entity (legally a person) and recognized as such in law.
+
+QUERY: 'what is the coporation?'
+RETRIEVED QUERY: 'what is the corporation?'
+EXTRACTED ANSWER: A corporation is a company or group of people authorized to act as a single entity (legally a person) and recognized as such in law.
+
+QUERY: 'what is a company?'
+RETRIEVED QUERY: 'what is a company?'
+EXTRACTED ANSWER: A company is incorporated in a specific nation, often within the bounds of a smaller subset of that nation, such as a state or province.
+
+QUERY: 'what is artificial intelligence?'
+RETRIEVED QUERY: 'what is artificial intelligence?'
+EXTRACTED ANSWER: None
+
+QUERY: 'what is a computer?'
+RETRIEVED QUERY: 'what is a computer?'
+EXTRACTED ANSWER: None
+
+QUERY: 'what is machine learning?'
+RETRIEVED QUERY: 'what is machine learning?'
+EXTRACTED ANSWER: None
+
+QUERY: 'what is a database?'
+RETRIEVED QUERY: 'what is a database?'
+EXTRACTED ANSWER: None

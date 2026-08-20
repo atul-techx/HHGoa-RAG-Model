@@ -1,0 +1,32 @@
+Retrieved docs for 'what is the coporation':
+
+Doc [0] Score: 0.2574
+Text: Rating Newest Oldest. Best Answer: well this is one thing. When i worked at cvs at the store 2 employees who just went to the distribution center came back after i got the job at the store. All what it is at the distribution center is stocking all day putting items in totes which is really boring.
+
+Doc [1] Score: 0.2414
+Text: Our goal is to provide you with a full range of grocery products that are of the highest possible quality at our incredibly low prices. To put it simply, we’re offering you a smarter way to shop.ur goal is to provide you with a full range of grocery products that are of the highest possible quality at our incredibly low prices. To put it simply, we’re offering you a smarter way to shop.
+
+Doc [2] Score: 0.2367
+Text: Hi, Just want to know what to expect. Is recementing a crown an expensive procedure? Does anyone know the price range? Thanks.
+
+Doc [3] Score: 0.2306
+Text: Treatment of Postmenopausal Osteoporosis. Boniva Injection is indicated for the treatment of osteoporosis in postmenopausal women. In postmenopausal women with osteoporosis, Boniva increases bone mineral density (BMD) and reduces the incidence of vertebral fractures [see Clinical Studies(14)].
+
+Doc [4] Score: 0.2253
+Text: In this case, Excel multiplies the values in the array (the cell range C2 through D11) and then uses the SUM function to add the totals together. The result is a grand total of $1,590,000 in sales. This example shows how powerful this type of formula can be. For example, suppose you have 1,000 rows of data.
+
+Doc [5] Score: 0.2236
+Text: Follow these steps if you would like to have a Stipulation & Order entered in your case: 1  Complete the Stipulation & Order. 2  Submit the Stipulation & Order to the Judge for Review. 3  File a Notice of Entry of Order.  Serve the Other Party.
+
+Doc [6] Score: 0.2208
+Text: Throughput is the quantity or amount of raw material processed within a given time. In other words, throughput is the rate of production for a process over a specific amount of time. This specific period is known as manufacturing throughput time, which is the amount of time required for a product to pass through a manufacturing process, thereby being converted from raw materials into finished goods. The concept also applies to the processing of raw materials into a component or sub-assembly.
+
+Doc [7] Score: 0.2188
+Text: To become the best service provider in post graduate business education in the local market & Middle East area. Mission Statement: To provide high quality post graduate business education for the sake of qualifying cadres to lead business & governmental institutions in the local market & Middle East area .
+
+Doc [8] Score: 0.2171
+Text: A written “Stipulation and Order” includes the parties’ agreement, both of their notarized signatures, and the judge’s signature. Once signed by the judge, the agreement becomes a legally binding “order.”. You may wonder why you need to do anything at all if you and the other party agree to change things.
+
+Doc [9] Score: 0.2093
+Text: McDonald's Corporation is one of the most recognizable corporations in the world. A corporation is a company or group of people authorized to act as a single entity (legally a person) and recognized as such in law. Early incorporated entities were established by charter (i.e. by an ad hoc act granted by a monarch or passed by a parliament or legislature).
+

@@ -34,3 +34,17 @@ frontend/dist/
 .DS_Store
 Thumbs.db
 *.log
+
+# Model Weights & Virtual Envs
+backend/models/*/venv/
+backend/models/*/__pycache__/
+backend/models/*/*/__pycache__/
+backend/models/*/*/*/__pycache__/
+backend/models/*/.vscode/
+*.pt
+*.pth
+*.safetensors
+*.bin
+*.gguf
+*.onnx
+

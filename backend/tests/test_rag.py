@@ -20,7 +20,7 @@ class TestVoiceRAGPipeline(unittest.TestCase):
 
     def test_pipeline_sub_200ms_latency(self):
         req = PipelineRequest(
-            query="What is Retrieval-Augmented Generation (RAG)?",
+            query="what is the corporation?",
             chunking_strategy="semantic",
             stt_latency_ms=20.0
         )

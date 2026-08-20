@@ -26,7 +26,8 @@ DOMAIN_SUBJECTS = {
     "rag", "retrieval", "augmented", "generation", "vector", "embedding", "chunking", "stt",
     "speech", "audio", "transcription", "sarvam", "elevenlabs", "goa", "panaji", "mandovi",
     "house of hackers", "hh goa", "msmarco", "latency", "p50", "p70", "p100", "guardrail",
-    "harness", "artificial intelligence", "llm", "database", "python", "dataset"
+    "harness", "artificial intelligence", "llm", "database", "python", "dataset",
+    "corporation", "corporations", "company", "companies", "computer", "computers", "machine", "learning"
 }
 
 OFF_TOPIC_EXPLICIT_KEYWORDS = {

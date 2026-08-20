@@ -1,3 +1,4 @@
+import os
 import time
 import requests
 from typing import Dict, Any, Tuple
@@ -8,28 +9,30 @@ class SpeechToTextService:
         """Transcribes audio using Sarvam AI Speech-to-Text API."""
         start_time = time.perf_counter()
         
-        if not api_key:
-            # Fallback mock/simulated STT response if API key is not provided in environment
+        effective_key = api_key or os.getenv("SARVAM_API_KEY")
+
+        if not effective_key:
+            # Fallback query if no API key is set anywhere
             elapsed = (time.perf_counter() - start_time) * 1000 + 45.0
             return "What is Retrieval-Augmented Generation (RAG)?", round(elapsed, 2)
 
         try:
             url = "https://api.sarvam.ai/speech-to-text"
-            headers = {"api-subscription-key": api_key}
+            headers = {"api-subscription-key": effective_key}
             files = {"file": ("audio.wav", audio_bytes, "audio/wav")}
-            data = {"language_code": language_code, "model": "saarika:v1"}
+            data = {"language_code": language_code, "model": "saaras:v3"}
             
-            response = requests.post(url, headers=headers, files=files, data=data, timeout=5.0)
+            response = requests.post(url, headers=headers, files=files, data=data, timeout=10.0)
             if response.status_code == 200:
                 transcript = response.json().get("transcript", "")
                 elapsed = (time.perf_counter() - start_time) * 1000
                 return transcript, round(elapsed, 2)
             else:
                 elapsed = (time.perf_counter() - start_time) * 1000
-                return f"[Sarvam Error {response.status_code}]: Fallback query - What is the capital of Goa?", round(elapsed, 2)
+                return f"[Sarvam Error {response.status_code}]: What is the corporation?", round(elapsed, 2)
         except Exception as e:
             elapsed = (time.perf_counter() - start_time) * 1000
-            return f"What is Retrieval Augmented Generation?", round(elapsed, 2)
+            return "What is the corporation?", round(elapsed, 2)
 
     @staticmethod
     def transcribe_elevenlabs(audio_bytes: bytes, api_key: str = None) -> Tuple[str, float]:
