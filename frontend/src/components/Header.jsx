@@ -16,15 +16,15 @@ export default function Header({ activeTab, setActiveTab, onOpenSettings }) {
             <div>
               <div className="flex items-center space-x-2">
                 <h1 className="text-xl sm:text-2xl font-black font-hh-serif tracking-normal text-[#ffde00] leading-none uppercase">
-                  Hacker House <span className="text-[#ff007a] italic">Goa</span>
+                  Iris <span className="text-[#ff007a] italic">Voice RAG</span>
                 </h1>
                 <span className="px-2.5 py-0.5 text-xs font-extrabold bg-[#ff007a] text-white rounded-full font-mono shadow-sm shrink-0">
-                  #RAGInGoa
+                  #IrisAI
                 </span>
               </div>
               <p className="text-xs text-[#a3c4b0] font-mono flex items-center gap-2 mt-1">
-                <span>Task 2: Voice RAG Pipeline</span>
-                <span className="text-[#ffde00]">🌴</span>
+                <span>Voice RAG Intelligence Engine</span>
+                <span className="text-[#ffde00]">⚡</span>
                 <span className="text-emerald-300 font-extrabold">&lt; 200ms Latency</span>
               </p>
             </div>

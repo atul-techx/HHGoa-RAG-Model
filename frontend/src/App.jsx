@@ -40,7 +40,7 @@ export default function App() {
       <footer className="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500 font-mono">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
-            House of Hackers Goa (HH Goa 2026) <span className="text-pink-500">#RAGInGoa</span> Task 2
+            Iris AI Voice RAG Engine <span className="text-pink-500">#IrisAI</span>
           </div>
           <div className="text-slate-400">
             Voice-Enabled Sub-200ms RAG Pipeline <span className="text-cyan-400">|</span> Sarvam &amp; ElevenLabs STT Engine

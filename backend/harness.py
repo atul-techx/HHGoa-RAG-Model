@@ -35,7 +35,7 @@ class PipelineResponse(BaseModel):
     relevance_score: float
     retries_count: int
     trace: List[ExecutionTraceStep]
-    hashtag: str = "#RAGInGoa"
+    hashtag: str = "#IrisAI"
 
 class ModelHarness:
     def __init__(self, rag_engine: VectorRAGEngine):

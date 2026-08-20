@@ -1,8 +1,8 @@
-# Voice-Enabled RAG Model — HH Goa 2026 (#RAGInGoa)
+# Iris — Voice-Enabled RAG Model (#IrisAI)
 
-![HH Goa 2026](https://img.shields.io/badge/HH--Goa-2026-ff2a85?style=for-the-badge)
-![Hashtag](https://img.shields.io/badge/%23RAGInGoa-Mandatory-00f0ff?style=for-the-badge)
-![Latency Target](https://img.shields.io/badge/Latency-%3C200ms%20Fulfilled-emerald?style=for-the-badge)
+![Iris AI](https://img.shields.io/badge/Iris-Voice--RAG-ff2a85?style=for-the-badge)
+![Hashtag](https://img.shields.io/badge/%23IrisAI-Mandatory-00f0ff?style=for-the-badge)
+![Latency](https://img.shields.io/badge/Latency-%3C200ms-00ff66?style=for-the-badge)
 
 A high-performance **Voice-Enabled Retrieval-Augmented Generation (RAG) System** built for **House of Hackers Goa (HH Goa 2026)**. The system transcribes spoken voice queries, executes engineered chunking and sub-5ms vector retrieval over the **MSMARCO-XI** dataset, enforces multi-tier guardrails, and synthesizes answers inside a resilient model harness — **all under 200ms end-to-end latency**.
 

@@ -124,7 +124,7 @@ export default function ChunkingComparator() {
 
               <div className="pt-3 border-t border-[#024b2d]/10 text-[10px] text-[#4a6855] font-mono flex justify-between font-bold">
                 <span>Retrieval: {data.retrieval_ms} ms</span>
-                <span className="text-[#ff007a]">#RAGInGoa</span>
+                <span className="text-[#ff007a]">#IrisAI</span>
               </div>
 
             </div>

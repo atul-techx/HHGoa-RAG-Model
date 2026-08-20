@@ -270,7 +270,7 @@ export default function VoiceRAGPlayground({ settings }) {
 
               <div className="mt-4 flex items-center justify-between text-xs text-[#4a6855] font-mono font-bold">
                 <span>Strategy: <strong className="text-[#024b2d] uppercase">{response.chunking_strategy}</strong></span>
-                <span className="px-2.5 py-0.5 bg-[#ff007a] text-white rounded-full text-[10px] font-bold">#RAGInGoa</span>
+                <span className="px-2.5 py-0.5 bg-[#ff007a] text-white rounded-full text-[10px] font-bold">#IrisAI</span>
               </div>
             </div>
 

@@ -96,5 +96,5 @@ class LatencyBenchmarkSuite:
                 "generation_ms": round(float(np.mean(generation_latencies)), 2)
             },
             "query_results": results,
-            "hashtag": "#RAGInGoa"
+            "hashtag": "#IrisAI"
         }
