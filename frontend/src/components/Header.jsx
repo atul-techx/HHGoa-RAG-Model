@@ -13,15 +13,20 @@ export default function Header({ activeTab, setActiveTab, onOpenSettings }) {
               <Mic className="w-6 h-6 animate-pulse" />
             </div>
 
-            <div>
+            <div className="flex flex-col">
               <div className="flex items-center space-x-2">
-                <h1 className="text-xl sm:text-2xl font-black font-hh-serif tracking-normal text-[#ffde00] leading-none uppercase">
-                  Iris <span className="text-[#ff007a] italic">Voice RAG</span>
-                </h1>
-                <span className="px-2.5 py-0.5 text-xs font-extrabold bg-[#ff007a] text-white rounded-full font-mono shadow-sm shrink-0">
+                <span className="text-[11px] font-black tracking-widest text-[#ffde00] uppercase font-mono bg-[#024b2d] px-2 py-0.5 rounded border border-[#00663c] shadow-inner">
+                  HH GOA
+                </span>
+                <span className="px-2 py-0.5 text-[10px] font-extrabold bg-[#ff007a] text-white rounded-full font-mono shadow-sm shrink-0">
                   #IrisAI
                 </span>
               </div>
+
+              <h1 className="text-2xl sm:text-3xl font-black font-hh-serif tracking-tight text-[#ffde00] leading-none uppercase mt-1">
+                IRIS
+              </h1>
+
               <p className="text-xs text-[#a3c4b0] font-mono flex items-center gap-2 mt-1">
                 <span>Voice RAG Intelligence Engine</span>
                 <span className="text-[#ffde00]">⚡</span>

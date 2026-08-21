@@ -6,6 +6,7 @@ import LatencyAnalytics from './components/LatencyAnalytics';
 import GuardrailsHarness from './components/GuardrailsHarness';
 import DatasetExplorer from './components/DatasetExplorer';
 import ModelSettingsModal from './components/ModelSettingsModal';
+import Footer from './components/Footer';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('playground');
@@ -18,7 +19,7 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col font-sans">
+    <div className="min-h-screen flex flex-col font-sans bg-[#024b2d]">
       
       {/* Navigation Header */}
       <Header 
@@ -37,16 +38,7 @@ export default function App() {
       </main>
 
       {/* Footer Branding */}
-      <footer className="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500 font-mono">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <div>
-            Iris AI Voice RAG Engine <span className="text-pink-500">#IrisAI</span>
-          </div>
-          <div className="text-slate-400">
-            Voice-Enabled Sub-200ms RAG Pipeline <span className="text-cyan-400">|</span> Sarvam &amp; ElevenLabs STT Engine
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       {/* Settings Modal */}
       <ModelSettingsModal
