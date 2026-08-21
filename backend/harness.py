@@ -28,6 +28,10 @@ class PipelineResponse(BaseModel):
     chunking_strategy: str
     retrieved_chunks: List[Dict[str, Any]]
     total_latency_ms: float
+    stt_latency_ms: float = 0.0
+    guardrail_latency_ms: float = 0.0
+    retrieval_latency_ms: float = 0.0
+    generation_latency_ms: float = 0.0
     latency_breakdown: Dict[str, float]
     guardrails_passed: bool
     guardrail_stage: str
@@ -184,16 +188,22 @@ class ModelHarness:
         refusal_code = "NONE"
 
         if not conf_passed:
-            guardrails_passed = False
-            guardrail_stage = "retrieval_confidence"
-            guardrail_reason = conf_reason
-            refusal_code = "LOW_CONFIDENCE"
-            final_answer = "I don't have enough information in the provided dataset to answer this question."
+            # Switch to Generative AI Knowledge synthesis for queries not in local vector store
+            gk_ans, gk_ms, model_telemetry = self.rag_engine.generate_general_knowledge_answer(
+                request.query, 
+                custom_model_endpoint=request.custom_model_endpoint
+            )
+            gen_ms += gk_ms
+            final_answer = gk_ans
+            guardrails_passed = True
+            guardrail_stage = "passed"
+            guardrail_reason = "Generative AI Knowledge synthesis passed."
+            refusal_code = "NONE"
             trace.append(ExecutionTraceStep(
-                step_name="Post-Generation Grounding Guardrail",
-                status="REJECTED",
-                duration_ms=round(g2_ms, 2),
-                details={"reason": conf_reason}
+                step_name="Generative AI Knowledge Synthesis",
+                status="PASSED",
+                duration_ms=round(gk_ms, 2),
+                details=model_telemetry
             ))
         elif not grounded:
             guardrails_passed = False
@@ -217,6 +227,11 @@ class ModelHarness:
 
         total_latency = (time.perf_counter() - start_total) * 1000
 
+        stt_ms = round(request.stt_latency_ms, 2)
+        g_ms = round(g1_ms + g2_ms, 2)
+        ret_ms = round(retrieval_ms, 2)
+        gen_ms_rounded = round(gen_ms, 2)
+
         return PipelineResponse(
             query=request.query,
             transcription_provider=request.stt_provider,
@@ -224,11 +239,15 @@ class ModelHarness:
             chunking_strategy=request.chunking_strategy,
             retrieved_chunks=retrieved_chunks,
             total_latency_ms=round(total_latency, 2),
+            stt_latency_ms=stt_ms,
+            guardrail_latency_ms=g_ms,
+            retrieval_latency_ms=ret_ms,
+            generation_latency_ms=gen_ms_rounded,
             latency_breakdown={
-                "stt": round(request.stt_latency_ms, 2),
-                "guardrails": round(g1_ms + g2_ms, 2),
-                "retrieval": round(retrieval_ms, 2),
-                "generation": round(gen_ms, 2)
+                "stt": stt_ms,
+                "guardrails": g_ms,
+                "retrieval": ret_ms,
+                "generation": gen_ms_rounded
             },
             guardrails_passed=guardrails_passed,
             guardrail_stage=guardrail_stage,

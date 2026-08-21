@@ -354,22 +354,30 @@ export default function VoiceRAGPlayground({ settings }) {
               <div className="space-y-3 font-mono text-xs">
                 <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
                   <span className="text-emerald-200">1. Voice STT Stage:</span>
-                  <span className="font-bold text-[#ffde00]">{response.stt_latency_ms || 0} ms</span>
+                  <span className="font-bold text-[#ffde00]">
+                    {response.latency_breakdown?.stt ?? response.stt_latency_ms ?? 0} ms
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
                   <span className="text-emerald-200">2. Guardrail Check:</span>
-                  <span className="font-bold text-[#ffde00]">{response.guardrail_latency_ms || 0} ms</span>
+                  <span className="font-bold text-[#ffde00]">
+                    {response.latency_breakdown?.guardrails ?? response.guardrail_latency_ms ?? 0} ms
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
                   <span className="text-emerald-200">3. Vector Retrieval:</span>
-                  <span className="font-bold text-[#ffde00]">{response.retrieval_latency_ms || 0} ms</span>
+                  <span className="font-bold text-[#ffde00]">
+                    {response.latency_breakdown?.retrieval ?? response.retrieval_latency_ms ?? 0} ms
+                  </span>
                 </div>
 
                 <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
                   <span className="text-emerald-200">4. Answer Synthesis:</span>
-                  <span className="font-bold text-[#ffde00]">{response.generation_latency_ms || 0} ms</span>
+                  <span className="font-bold text-[#ffde00]">
+                    {response.latency_breakdown?.generation ?? response.generation_latency_ms ?? 0} ms
+                  </span>
                 </div>
               </div>
 

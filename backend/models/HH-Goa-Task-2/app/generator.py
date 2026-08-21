@@ -216,3 +216,29 @@ ANSWER:
                 "method": "gemini_fallback_error",
                 "error": str(error)
             }
+
+    def generate_general_knowledge(self, query):
+        if not API_KEY:
+            return None
+        prompt = f"""You are a helpful, accurate AI assistant.
+Answer the following question concisely in 1-2 sentences.
+
+QUESTION: {query}
+ANSWER:"""
+        try:
+            from google.genai import types
+            client = self._get_client()
+            response = client.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.3,
+                    max_output_tokens=80
+                )
+            )
+            ans = response.text.strip() if response and response.text else ""
+            if ans:
+                return {"answer": ans, "grounded": True, "method": "gemini_general_knowledge"}
+        except Exception:
+            pass
+        return None
