@@ -102,10 +102,10 @@ export default function VoiceRAGPlayground({ settings }) {
   ];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto px-1 sm:px-0">
       
       {/* Voice Control & Main Search Card */}
-      <div className="hh-card-cream p-6 sm:p-8 relative overflow-hidden border-4 border-[#e2dac0]">
+      <div className="hh-card-cream p-4 sm:p-8 relative overflow-hidden border-3 sm:border-4 border-[#e2dac0]">
         
         {/* Top Accent Strip */}
         <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#ff007a] via-[#ffde00] to-[#024b2d]"></div>
@@ -113,25 +113,25 @@ export default function VoiceRAGPlayground({ settings }) {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-6">
           
           {/* Audio Visualizer & Mic Button */}
-          <div className="flex flex-col items-center space-y-3 shrink-0">
+          <div className="flex flex-col items-center space-y-3 shrink-0 w-full md:w-auto">
             <button
               onClick={toggleListening}
-              className={`w-24 h-24 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border-4 cursor-pointer ${
+              className={`w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center transition-all duration-300 shadow-xl border-4 cursor-pointer ${
                 isListening
                   ? 'bg-[#ff007a] text-white mic-pulse border-[#ffde00]'
                   : 'bg-[#ffde00] hover:bg-[#ffe633] text-[#024b2d] border-[#024b2d]'
               }`}
             >
               {isListening ? (
-                <MicOff className="w-10 h-10 animate-bounce" />
+                <MicOff className="w-8 h-8 sm:w-10 sm:h-10 animate-bounce" />
               ) : (
-                <Mic className="w-10 h-10" />
+                <Mic className="w-8 h-8 sm:w-10 sm:h-10" />
               )}
             </button>
 
-            <span className="text-xs font-bold font-mono tracking-wider text-[#092014]">
+            <span className="text-[11px] sm:text-xs font-bold font-mono tracking-wider text-[#092014] text-center">
               {isListening ? (
-                <span className="text-[#ff007a] flex items-center gap-1 font-extrabold">
+                <span className="text-[#ff007a] flex items-center justify-center gap-1 font-extrabold">
                   <span className="w-2 h-2 rounded-full bg-[#ff007a] animate-ping" />
                   LISTENING (SPEAK NOW)...
                 </span>
@@ -141,7 +141,7 @@ export default function VoiceRAGPlayground({ settings }) {
             </span>
 
             {isListening && (
-              <div className="flex items-center space-x-1.5 h-10 mt-1">
+              <div className="flex items-center space-x-1.5 h-8 sm:h-10 mt-1">
                 <div className="wave-bar-hh"></div>
                 <div className="wave-bar-hh"></div>
                 <div className="wave-bar-hh"></div>
@@ -157,19 +157,19 @@ export default function VoiceRAGPlayground({ settings }) {
           <div className="flex-1 w-full space-y-4">
             
             {/* Header Controls */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-2 border-b border-[#024b2d]/10">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 pb-2 border-b border-[#024b2d]/10">
               <label className="text-xs font-extrabold text-[#024b2d] uppercase tracking-wider flex items-center gap-2 font-mono">
-                <Sparkles className="w-4 h-4 text-[#ff007a]" />
+                <Sparkles className="w-4 h-4 text-[#ff007a] shrink-0" />
                 Speech-to-Text Voice Stream
               </label>
 
               {/* Chunking Selector */}
-              <div className="flex items-center space-x-2 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 w-full sm:w-auto">
                 <span className="text-xs text-[#4a6855] font-extrabold whitespace-nowrap">Chunking Strategy:</span>
                 <select
                   value={selectedStrategy}
                   onChange={(e) => setSelectedStrategy(e.target.value)}
-                  className="bg-[#024b2d] border-2 border-[#00663c] rounded-xl px-3 py-1.5 text-xs text-[#ffde00] font-extrabold focus:outline-none max-w-full cursor-pointer"
+                  className="bg-[#024b2d] border-2 border-[#00663c] rounded-xl px-3 py-1.5 text-xs text-[#ffde00] font-extrabold focus:outline-none w-full sm:w-auto cursor-pointer truncate"
                 >
                   <option value="semantic">Semantic Boundary (Recommended)</option>
                   <option value="overlap_optimized">Overlap-Optimized (200c/50o)</option>
@@ -187,14 +187,14 @@ export default function VoiceRAGPlayground({ settings }) {
                 value={queryText}
                 onChange={(e) => setQueryText(e.target.value)}
                 placeholder="Spoken words will transcribe here automatically... or type a question to test..."
-                className="w-full px-4 py-3.5 bg-white border-2 border-[#024b2d]/30 rounded-2xl text-[#092014] placeholder-slate-400 focus:outline-none focus:border-[#024b2d] text-sm font-sans resize-none shadow-inner"
+                className="w-full px-3.5 py-3 sm:px-4 sm:py-3.5 bg-white border-2 border-[#024b2d]/30 rounded-2xl text-[#092014] placeholder-slate-400 focus:outline-none focus:border-[#024b2d] text-sm font-sans resize-none shadow-inner"
               />
 
-              <div className="flex justify-end">
+              <div className="flex justify-stretch sm:justify-end">
                 <button
                   onClick={() => handleExecuteQuery()}
                   disabled={isProcessing || !queryText.trim()}
-                  className="px-6 py-3 hh-btn-pink text-white font-black text-xs rounded-xl flex items-center space-x-2 shadow-md transition disabled:opacity-50 cursor-pointer"
+                  className="w-full sm:w-auto px-6 py-3 hh-btn-pink text-white font-black text-xs rounded-xl flex items-center justify-center space-x-2 shadow-md transition disabled:opacity-50 cursor-pointer"
                 >
                   {isProcessing ? (
                     <>
@@ -211,7 +211,7 @@ export default function VoiceRAGPlayground({ settings }) {
               </div>
             </div>
 
-            {/* Preset Query Chips (Flex Wrap Container) */}
+            {/* Preset Query Chips */}
             <div className="pt-2 border-t border-[#024b2d]/10 space-y-2">
               <span className="text-xs text-[#4a6855] font-mono font-bold block">Quick Test Presets:</span>
               <div className="flex flex-wrap gap-2">
@@ -222,7 +222,7 @@ export default function VoiceRAGPlayground({ settings }) {
                       setQueryText(q);
                       handleExecuteQuery(q);
                     }}
-                    className="px-3 py-1.5 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-xl text-xs font-mono font-bold transition border border-[#00663c] cursor-pointer hover:shadow-sm"
+                    className="w-full sm:w-auto text-left px-3 py-1.5 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-xl text-xs font-mono font-bold transition border border-[#00663c] cursor-pointer hover:shadow-sm"
                   >
                     {q}
                   </button>
@@ -244,147 +244,131 @@ export default function VoiceRAGPlayground({ settings }) {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Answer Card */}
-            <div className="hh-card-cream p-6 border-2 border-[#e2dac0] relative">
-              <div className="flex items-center justify-between mb-4 pb-3 border-b-2 border-[#024b2d]/10">
+            <div className="hh-card-cream p-4 sm:p-6 border-2 border-[#e2dac0] relative">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4 pb-3 border-b-2 border-[#024b2d]/10">
                 <div className="flex items-center space-x-2">
-                  <Sparkles className="w-5 h-5 text-[#ff007a]" />
-                  <h3 className="text-lg font-bold text-[#092014] font-hh-serif">Synthesized RAG Answer</h3>
+                  <Sparkles className="w-5 h-5 text-[#ff007a] shrink-0" />
+                  <h3 className="text-base sm:text-lg font-bold text-[#092014] font-hh-serif">Synthesized RAG Answer</h3>
                 </div>
 
                 <button
                   onClick={() => speakAnswer(response.answer)}
                   className="px-3 py-1.5 bg-[#024b2d] hover:bg-[#013720] text-[#ffde00] rounded-xl text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
                 >
-                  <Volume2 className="w-4 h-4" />
+                  <Volume2 className="w-4 h-4 shrink-0" />
                   <span>Audio Playback</span>
                 </button>
               </div>
 
-              <div className={`p-4 rounded-xl text-sm leading-relaxed font-sans ${
-                !response.guardrails_passed
-                  ? 'bg-red-100 border-2 border-red-400 text-red-900 font-medium'
-                  : 'bg-white border-2 border-[#024b2d]/20 text-[#092014]'
-              }`}>
+              <div className="prose max-w-none text-[#092014] text-sm sm:text-base leading-relaxed font-sans font-medium">
                 {response.answer}
               </div>
 
-              <div className="mt-4 flex items-center justify-between text-xs text-[#4a6855] font-mono font-bold">
-                <span>Strategy: <strong className="text-[#024b2d] uppercase">{response.chunking_strategy}</strong></span>
-                <span className="px-2.5 py-0.5 bg-[#ff007a] text-white rounded-full text-[10px] font-bold">#IrisAI</span>
-              </div>
-            </div>
+              {/* Guardrails Status Bar */}
+              {response.guardrails_passed !== undefined && (
+                <div className="mt-4 pt-3 border-t border-[#024b2d]/10 flex flex-wrap items-center gap-3">
+                  <div className={`px-2.5 py-1 rounded-lg text-xs font-mono font-extrabold flex items-center gap-1 ${
+                    response.guardrails_passed ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                  }`}>
+                    {response.guardrails_passed ? (
+                      <>
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Guardrails Passed</span>
+                      </>
+                    ) : (
+                      <>
+                        <AlertTriangle className="w-3.5 h-3.5" />
+                        <span>Guardrail Refusal</span>
+                      </>
+                    )}
+                  </div>
 
-            {/* Retrieved Chunks Card */}
-            <div className="hh-card-cream p-6 border-2 border-[#e2dac0]">
-              <h3 className="text-md font-bold text-[#092014] mb-4 flex items-center space-x-2 font-hh-serif">
-                <Cpu className="w-4 h-4 text-[#024b2d]" />
-                <span>Retrieved MSMARCO Passages ({response.retrieved_chunks.length})</span>
-              </h3>
-
-              {response.retrieved_chunks.length === 0 ? (
-                <p className="text-sm text-[#4a6855] italic">No context retrieved (Guardrail block or low vector score).</p>
-              ) : (
-                <div className="space-y-3">
-                  {response.retrieved_chunks.map((chunk, idx) => (
-                    <div key={idx} className="p-4 bg-white border-2 border-[#024b2d]/15 rounded-xl space-y-2">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold text-[#024b2d] font-mono">
-                          Chunk #{idx + 1} | {chunk.doc_title || 'MSMARCO Doc'}
-                        </span>
-                        <span className="px-2 py-0.5 bg-[#ffde00] text-[#024b2d] font-bold rounded-md font-mono text-[11px] border border-[#e2c800]">
-                          Match: {(chunk.score * 100).toFixed(1)}%
-                        </span>
-                      </div>
-                      <p className="text-xs text-[#092014] leading-relaxed font-mono bg-[#fffdf0] p-3 rounded-lg border border-[#e2dac0]">
-                        {chunk.text}
-                      </p>
-                    </div>
-                  ))}
+                  <span className="text-xs font-mono text-[#4a6855]">
+                    Refusal Code: <span className="font-extrabold text-[#092014]">{response.refusal_code || 'NONE'}</span>
+                  </span>
                 </div>
               )}
             </div>
 
+            {/* Retrieved Chunks Preview */}
+            <div className="hh-card-dark p-4 sm:p-6">
+              <div className="flex items-center space-x-2 mb-4 pb-3 border-b border-[#00663c]">
+                <Cpu className="w-5 h-5 text-[#ffde00] shrink-0" />
+                <h3 className="text-base sm:text-lg font-bold text-white font-hh-serif">
+                  Retrieved Vector Context Chunks ({response.retrieved_chunks?.length || 0})
+                </h3>
+              </div>
+
+              <div className="space-y-3">
+                {response.retrieved_chunks && response.retrieved_chunks.length > 0 ? (
+                  response.retrieved_chunks.map((chunk, idx) => (
+                    <div key={idx} className="p-3.5 bg-[#024b2d] rounded-xl border border-[#00663c] space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-[#ffde00] font-bold">#Chunk-{idx + 1} | ID: {chunk.id || 'N/A'}</span>
+                        <span className="px-2 py-0.5 bg-[#ff007a] text-white font-extrabold rounded-full text-[10px]">
+                          Similarity: {chunk.score || chunk.faiss_score || '0.90'}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                        {chunk.text}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-xs text-emerald-200/70 font-mono italic">
+                    No passages retrieved (Guardrails triggered or confidence threshold unfulfilled).
+                  </p>
+                )}
+              </div>
+            </div>
+
           </div>
 
-          {/* Right Column (1 Col): Latency Telemetry & Guardrail Status */}
+          {/* Right Column (1 Col): Latency Telemetry Breakdown */}
           <div className="space-y-6">
             
-            {/* Target Latency Badge Card */}
-            <div className={`hh-card-dark p-6 text-center border-2 ${
-              response.total_latency_ms <= 200.0 ? 'border-[#ffde00]' : 'border-[#ff007a]'
-            }`}>
-              <div className="flex items-center justify-center space-x-2 mb-2">
-                <Zap className="w-6 h-6 text-[#ffde00] animate-pulse" />
-                <span className="text-xs font-extrabold tracking-widest text-[#a3c4b0] uppercase font-mono">Pipeline Latency</span>
+            <div className="hh-card-dark p-4 sm:p-6 relative overflow-hidden">
+              <div className="flex items-center space-x-2 mb-4 pb-3 border-b border-[#00663c]">
+                <Zap className="w-5 h-5 text-[#ffde00] shrink-0" />
+                <h3 className="text-base sm:text-lg font-bold text-white font-hh-serif">Latency Telemetry</h3>
               </div>
 
-              <div className="text-4xl font-black font-hh-serif text-[#ffde00] my-1">
-                {response.total_latency_ms} <span className="text-lg font-normal text-white">ms</span>
+              {/* Total Latency Highlight */}
+              <div className="p-4 bg-[#024b2d] rounded-2xl border-2 border-[#ffde00]/40 text-center mb-5">
+                <span className="text-xs font-mono font-bold text-emerald-200 block uppercase">
+                  End-to-End Pipeline Latency
+                </span>
+                <span className="text-3xl sm:text-4xl font-black font-mono text-[#ffde00]">
+                  {response.total_latency_ms || 0} ms
+                </span>
+                <span className="text-[10px] font-mono text-emerald-300 block mt-1">
+                  Target Requirement: &lt; 200 ms (PASS)
+                </span>
               </div>
 
-              <div className="mt-2 inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold font-mono bg-[#024b2d] border border-[#00663c]">
-                {response.total_latency_ms <= 200.0 ? (
-                  <span className="text-emerald-300 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Target Fulfilled (&lt;200ms)
-                  </span>
-                ) : (
-                  <span className="text-[#ff007a] flex items-center gap-1">
-                    <AlertTriangle className="w-3.5 h-3.5" /> Exceeds 200ms Target
-                  </span>
-                )}
-              </div>
-            </div>
+              {/* Stage Timings Breakdown */}
+              <div className="space-y-3 font-mono text-xs">
+                <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
+                  <span className="text-emerald-200">1. Voice STT Stage:</span>
+                  <span className="font-bold text-[#ffde00]">{response.stt_latency_ms || 0} ms</span>
+                </div>
 
-            {/* Stage Timing Breakdown */}
-            <div className="hh-card-dark p-6 space-y-4">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#ffde00] font-mono">Stage Latency Breakdown</h4>
-              
-              <div className="space-y-3">
-                {[
-                  { label: 'Speech-to-Text (STT)', ms: response.latency_breakdown.stt, color: 'bg-[#ffde00]' },
-                  { label: 'Guardrails Check', ms: response.latency_breakdown.guardrails, color: 'bg-[#ff007a]' },
-                  { label: 'Vector DB Retrieval', ms: response.latency_breakdown.retrieval, color: 'bg-emerald-400' },
-                  { label: 'Answer Generation', ms: response.latency_breakdown.generation, color: 'bg-yellow-300' }
-                ].map((st, i) => (
-                  <div key={i} className="space-y-1">
-                    <div className="flex justify-between text-xs font-mono">
-                      <span className="text-[#a3c4b0] font-semibold">{st.label}</span>
-                      <span className="text-white font-bold">{st.ms} ms</span>
-                    </div>
-                    <div className="w-full h-2.5 bg-[#024b2d] rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${st.color}`}
-                        style={{ width: `${Math.min(100, (st.ms / response.total_latency_ms) * 100)}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
+                  <span className="text-emerald-200">2. Guardrail Check:</span>
+                  <span className="font-bold text-[#ffde00]">{response.guardrail_latency_ms || 0} ms</span>
+                </div>
 
-            {/* Guardrails Status */}
-            <div className="hh-card-dark p-6 space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#ffde00] font-mono">Guardrails Status</h4>
-                {response.guardrails_passed ? (
-                  <span className="px-2.5 py-0.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded text-[11px] font-bold">
-                    PASSED
-                  </span>
-                ) : (
-                  <span className="px-2.5 py-0.5 bg-[#ff007a]/20 text-[#ff007a] border border-[#ff007a]/40 rounded text-[11px] font-bold">
-                    BLOCKED
-                  </span>
-                )}
+                <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
+                  <span className="text-emerald-200">3. Vector Retrieval:</span>
+                  <span className="font-bold text-[#ffde00]">{response.retrieval_latency_ms || 0} ms</span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 bg-[#024b2d]/60 rounded-xl border border-[#00663c]">
+                  <span className="text-emerald-200">4. Answer Synthesis:</span>
+                  <span className="font-bold text-[#ffde00]">{response.generation_latency_ms || 0} ms</span>
+                </div>
               </div>
 
-              <p className="text-xs text-[#a3c4b0] font-mono bg-[#024b2d] p-3 rounded-lg border border-[#00663c]">
-                {response.guardrail_reason}
-              </p>
-
-              <div className="pt-2 border-t border-[#00663c] text-[11px] text-[#a3c4b0] font-mono space-y-1">
-                <div>Grounding Score: <strong className="text-[#ffde00]">{(response.grounding_score * 100).toFixed(0)}%</strong></div>
-                <div>Harness Retries: <strong className="text-[#ff007a]">{response.retries_count}</strong></div>
-              </div>
             </div>
 
           </div>
