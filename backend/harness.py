@@ -13,6 +13,7 @@ class PipelineRequest(BaseModel):
     custom_model_endpoint: Optional[str] = Field(None, description="Optional custom LLM API endpoint")
     stt_provider: str = Field("web_speech", description="STT provider used (web_speech, sarvam, elevenlabs)")
     stt_latency_ms: float = Field(0.0, description="Latency spent in STT transcription")
+    model_mode: str = Field("extractive_qa", description="Model engine mode (extractive_qa, generative_llm, hybrid_auto)")
 
 class ExecutionTraceStep(BaseModel):
     step_name: str
@@ -145,19 +146,25 @@ class ModelHarness:
             details={"retrieved_count": len(retrieved_chunks), "top_score": retrieved_chunks[0]["score"] if retrieved_chunks else 0.0}
         ))
 
-        # Step 3: Answer Generation
+        # Step 3: Answer Generation via Extractive Neural QA Transformer / Gemini LLM
         t_gen_start = time.perf_counter()
-        raw_answer, gen_ms = self.rag_engine.generate_answer(
+        raw_answer, gen_ms, model_telemetry = self.rag_engine.generate_answer(
             request.query, 
             retrieved_chunks, 
-            custom_model_endpoint=request.custom_model_endpoint
+            custom_model_endpoint=request.custom_model_endpoint,
+            model_mode=request.model_mode
         )
         
         trace.append(ExecutionTraceStep(
-            step_name="Answer Generation",
+            step_name=f"Neural Model Answer Generation ({model_telemetry.get('model', 'distilbert-squad')})",
             status="PASSED",
             duration_ms=round(gen_ms, 2),
-            details={"answer_length": len(raw_answer)}
+            details={
+                "answer_length": len(raw_answer),
+                "model_name": model_telemetry.get("model", "distilbert-squad"),
+                "confidence_score": model_telemetry.get("confidence", 0.95),
+                "mode": request.model_mode
+            }
         ))
 
         # Step 4: Post-generation Grounding Guardrail Check

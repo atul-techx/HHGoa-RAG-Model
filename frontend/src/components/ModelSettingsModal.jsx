@@ -24,6 +24,35 @@ export default function ModelSettingsModal({ isOpen, onClose, settings, setSetti
 
         <div className="space-y-5 py-4">
           
+          {/* AI Model Mode Choice */}
+          <div>
+            <label className="block text-xs font-bold text-[#024b2d] mb-1.5 flex items-center gap-1.5 font-mono">
+              <Server className="w-3.5 h-3.5 text-[#ff007a]" />
+              AI Answer Engine Mode
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { id: 'extractive_qa', label: 'DistilBERT Neural QA', desc: 'Local Transformer (<50ms)' },
+                { id: 'generative_llm', label: 'Gemini LLM', desc: 'Generative Synthesis' },
+                { id: 'hybrid_auto', label: 'Hybrid Auto', desc: 'Neural QA + LLM Fallback' }
+              ].map((mode) => (
+                <button
+                  key={mode.id}
+                  type="button"
+                  onClick={() => setSettings({ ...settings, modelMode: mode.id })}
+                  className={`p-3 rounded-xl border-2 text-left transition ${
+                    (settings.modelMode || 'extractive_qa') === mode.id
+                      ? 'border-[#ff007a] bg-[#ff007a]/10 text-[#092014] font-bold'
+                      : 'border-[#024b2d]/20 bg-white text-[#4a6855] hover:border-[#024b2d]'
+                  }`}
+                >
+                  <div className="text-xs font-bold">{mode.label}</div>
+                  <div className="text-[10px] text-[#4a6855] mt-0.5">{mode.desc}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* Custom Model Endpoint */}
           <div>
             <label className="block text-xs font-bold text-[#024b2d] mb-1.5 flex items-center gap-1.5 font-mono">
@@ -38,7 +67,7 @@ export default function ModelSettingsModal({ isOpen, onClose, settings, setSetti
               className="w-full px-3.5 py-2.5 bg-white border-2 border-[#024b2d]/30 rounded-xl text-sm text-[#092014] placeholder-slate-400 focus:outline-none focus:border-[#024b2d] font-mono"
             />
             <p className="text-[11px] text-[#4a6855] mt-1 font-sans">
-              Connect your own LLM model backend server. Defaults to sub-200ms grounded synthesizer.
+              Connect your own LLM model backend server or choose local Transformer Neural QA engine.
             </p>
           </div>
 

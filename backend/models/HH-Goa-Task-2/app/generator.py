@@ -82,102 +82,26 @@ def clean_sentence(s):
     return s
 
 
-def extract_answer(query, contexts):
+from backend.neural_qa import ExtractiveQAModel
+
+_neural_qa_engine = ExtractiveQAModel()
+
+def extract_answer(query, contexts, model_mode="extractive_qa"):
     """
-    Fast local answer generation with lightweight typo tolerance.
-    No API call. No LLM latency.
-    Extracts concise, grounded answer directly from retrieved context ONLY when
-    the selected retrieved context actually answers the user's question.
+    Executes Extractive Neural QA Transformer Model inference over retrieved context passages.
+    Returns neural answer span, transformer confidence score, and grounding details.
     """
     if not contexts:
         return None
 
     query_corr = correct_query_typos(query)
-    query_raw = query_corr.strip()
-    query_lower = query_raw.lower()
-
-    # Extract non-stopword query keywords
-    tokens = re.findall(r"\b[a-zA-Z0-9_-]{2,}\b", query_lower)
-    keywords = [t for t in tokens if t not in STOP_WORDS]
-    if not keywords:
-        return None
-
-    normalized_keywords = [normalize_word(kw) for kw in keywords]
-
-    candidates = []
-
-    for doc in contexts:
-        faiss_score = doc.get("faiss_score", 0.0)
-        text = doc.get("text", "").strip()
-        if not text or len(text) < 10:
-            continue
-
-        sentences = re.split(r'(?<=[.!?])\s+', text)
-        sentences = [clean_sentence(s) for s in sentences if len(s.strip()) > 5]
-
-        for idx, sentence in enumerate(sentences):
-            sentence_words = re.findall(r"\b[a-zA-Z0-9_-]{2,}\b", sentence.lower())
-            sentence_norm = [normalize_word(w) for w in sentence_words]
-
-            # 1. Keyword coverage check with typo tolerance
-            matched_kws = set()
-            for kw_norm in normalized_keywords:
-                for w_norm in sentence_norm:
-                    if (kw_norm == w_norm or
-                        (len(kw_norm) >= 4 and len(w_norm) >= 4 and
-                         (kw_norm in w_norm or w_norm in kw_norm or levenshtein(kw_norm, w_norm) <= 2))):
-                        matched_kws.add(kw_norm)
-                        break
-
-            required_matches = 2 if len(normalized_keywords) <= 2 else max(2, min(3, int(len(normalized_keywords) * 0.5)))
-            if len(matched_kws) < required_matches:
-                continue
-
-            # 2. Answerability & Subject Match Check
-            kw_regex_parts = [r'\b' + re.escape(kw) + r"(s|'s|ies)?" + r'\b' for kw in keywords]
-            kw_pattern = r'(' + '|'.join(kw_regex_parts) + r')'
-            filler = r'[\s\(\)\-\w]*?'
-
-            pattern_direct_is_a = r'^\s*(a|an|the)?\s*' + kw_pattern + filler + r'\s+(is|are)\s+(a|an|the)?\b'
-            pattern_start = r'^\s*(a|an|the)?\s*' + kw_pattern + filler + r'\s+(definition|is|are|refers to|means|was|were|can be|has|consists of|incorporated|created|defined|owned|governed)\b'
-            pattern_is_a = r'\b(a|an|the)?\s*' + kw_pattern + filler + r'\s+(is|are|refers to|means|incorporated|defined as|created by)\b'
-            pattern_a_is = r'\b(is|are)\s+(a|an|the)?\s*' + kw_pattern + r'\b'
-            pattern_def_header = r'^\s*' + kw_pattern + r'\s*(definition|:|,)'
-
-            s_lower = sentence.lower()
-            is_match = (
-                re.search(pattern_start, s_lower) or
-                re.search(pattern_is_a, s_lower) or
-                re.search(pattern_a_is, s_lower) or
-                re.search(pattern_def_header, s_lower)
-            )
-
-            if not is_match:
-                if len(matched_kws) >= required_matches:
-                    explanatory = ["is", "are", "refers", "means", "incorporate", "defined", "create", "owned", "govern", "improves", "converts", "breaks", "quantifies", "specializes", "described"]
-                    if any(verb in sentence_norm for verb in explanatory):
-                        is_match = True
-
-            if is_match:
-                score = 10.0 + len(matched_kws) * 5.0 + (faiss_score * 10.0)
-                if re.search(pattern_direct_is_a, s_lower):
-                    score += 20.0
-                elif re.search(pattern_start, s_lower) or re.search(pattern_def_header, s_lower):
-                    score += 10.0
-                candidates.append((score, -idx, sentence))
-
-    if candidates:
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        return candidates[0][2]
-
-    # Fallback: Return primary grounded sentence from the top retrieved context chunk
-    if contexts and contexts[0].get("text"):
-        sentences = re.split(r'(?<=[.!?])\s+', contexts[0]["text"].strip())
-        valid_sentences = [clean_sentence(s) for s in sentences if len(clean_sentence(s)) > 10]
-        if valid_sentences:
-            return valid_sentences[0]
+    qa_result = _neural_qa_engine.answer_question(query_corr, contexts)
+    
+    if qa_result and qa_result.get("grounded") and qa_result.get("confidence", 0.0) >= 0.10:
+        return qa_result.get("answer")
 
     return None
+
 
 
 class AnswerGenerator:

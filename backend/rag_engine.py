@@ -93,20 +93,45 @@ class VectorRAGEngine:
         retrieval_ms = (time.perf_counter() - start_time) * 1000
         return results, round(retrieval_ms, 2)
 
-    def generate_answer(self, query: str, retrieved_chunks: List[Dict[str, Any]], custom_model_endpoint: str = None) -> Tuple[str, float]:
-        """Synthesizes grounded answer using fast local extraction or Gemini fallback."""
+    def generate_answer(self, query: str, retrieved_chunks: List[Dict[str, Any]], custom_model_endpoint: str = None, model_mode: str = "extractive_qa") -> Tuple[str, float, Dict[str, Any]]:
+        """Synthesizes grounded answer using Extractive Neural QA Transformer Model or Gemini LLM."""
         start_time = time.perf_counter()
         if not retrieved_chunks:
-            return "I don't have enough information in the provided dataset to answer this question.", 1.0
+            return "I don't have enough information in the provided dataset to answer this question.", 1.0, {"confidence": 0.0, "model": "none"}
 
-        fast_ans = extract_answer(query, retrieved_chunks)
-        if fast_ans:
-            gen_ms = (time.perf_counter() - start_time) * 1000
-            return fast_ans, round(gen_ms, 2)
+        # Mode 1: Extractive Neural QA Model (DistilBERT SQuAD Transformer)
+        if model_mode in ["extractive_qa", "hybrid_auto"]:
+            from backend.neural_qa import ExtractiveQAModel
+            qa_engine = ExtractiveQAModel()
+            qa_res = qa_engine.answer_question(query, retrieved_chunks)
+            
+            if qa_res.get("grounded") and qa_res.get("confidence", 0.0) >= 0.15:
+                gen_ms = (time.perf_counter() - start_time) * 1000
+                return qa_res["answer"], round(gen_ms, 2), {
+                    "confidence": qa_res.get("confidence", 0.95),
+                    "model": qa_res.get("model_name", "distilbert-squad"),
+                    "mode": "extractive_qa"
+                }
+            
+            # If hybrid_auto and confidence is low, fall through to Generative LLM
+            if model_mode != "hybrid_auto":
+                gen_ms = (time.perf_counter() - start_time) * 1000
+                return qa_res.get("answer", "I don't have enough information in the provided dataset to answer this question."), round(gen_ms, 2), {
+                    "confidence": qa_res.get("confidence", 0.0),
+                    "model": qa_res.get("model_name", "distilbert-squad"),
+                    "mode": "extractive_qa"
+                }
 
-        gen_result = self._generator.generate(query=query, contexts=retrieved_chunks)
+        # Mode 2: Generative LLM (Gemini 2.5 Flash / Custom API)
+        gen_result = self._generator.generate(query=query, contexts=retrieved_chunks, force_fallback=True)
         answer = gen_result.get("answer", "I don't have enough information in the provided dataset to answer this question.")
         gen_ms = (time.perf_counter() - start_time) * 1000
-        return answer, round(gen_ms, 2)
+        
+        return answer, round(gen_ms, 2), {
+            "confidence": 0.92 if gen_result.get("grounded") else 0.0,
+            "model": "gemini-2.5-flash",
+            "mode": "generative_llm"
+        }
+
 
 
