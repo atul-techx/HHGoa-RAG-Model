@@ -1,0 +1,7 @@
+backend/models/HH-Goa-Task-2/venv/
+backend/models/HH-Goa-Task-2/index/
+*.wav
+*.mp3
+*.log
+frontend/node_modules/
+.git/
