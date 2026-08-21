@@ -4,10 +4,10 @@
     "in_domain_accuracy_pct": 100.0,
     "off_topic_block_pct": 100.0,
     "unsafe_block_pct": 100.0,
-    "p50_latency_ms": 2.12,
-    "p70_latency_ms": 2.74,
-    "p90_latency_ms": 4.22,
-    "p100_max_latency_ms": 8.97,
+    "p50_latency_ms": 2.16,
+    "p70_latency_ms": 2.51,
+    "p90_latency_ms": 3.31,
+    "p100_max_latency_ms": 11.85,
     "under_200ms_pct": 100.0
   },
   "overlap_optimized": {
@@ -16,9 +16,9 @@
     "off_topic_block_pct": 100.0,
     "unsafe_block_pct": 100.0,
     "p50_latency_ms": 2.03,
-    "p70_latency_ms": 2.68,
-    "p90_latency_ms": 3.82,
-    "p100_max_latency_ms": 7.2,
+    "p70_latency_ms": 2.74,
+    "p90_latency_ms": 4.07,
+    "p100_max_latency_ms": 8.35,
     "under_200ms_pct": 100.0
   },
   "metadata_aware": {
@@ -26,10 +26,10 @@
     "in_domain_accuracy_pct": 100.0,
     "off_topic_block_pct": 100.0,
     "unsafe_block_pct": 100.0,
-    "p50_latency_ms": 2.28,
-    "p70_latency_ms": 2.68,
-    "p90_latency_ms": 3.69,
-    "p100_max_latency_ms": 9.01,
+    "p50_latency_ms": 2.26,
+    "p70_latency_ms": 2.99,
+    "p90_latency_ms": 5.07,
+    "p100_max_latency_ms": 7.57,
     "under_200ms_pct": 100.0
   },
   "hierarchical": {
@@ -37,10 +37,10 @@
     "in_domain_accuracy_pct": 100.0,
     "off_topic_block_pct": 100.0,
     "unsafe_block_pct": 100.0,
-    "p50_latency_ms": 2.1,
-    "p70_latency_ms": 2.57,
-    "p90_latency_ms": 3.39,
-    "p100_max_latency_ms": 6.85,
+    "p50_latency_ms": 1.9,
+    "p70_latency_ms": 2.5,
+    "p90_latency_ms": 2.91,
+    "p100_max_latency_ms": 7.73,
     "under_200ms_pct": 100.0
   },
   "fixed_size": {
@@ -48,10 +48,10 @@
     "in_domain_accuracy_pct": 100.0,
     "off_topic_block_pct": 100.0,
     "unsafe_block_pct": 100.0,
-    "p50_latency_ms": 2.09,
-    "p70_latency_ms": 3.15,
-    "p90_latency_ms": 4.25,
-    "p100_max_latency_ms": 12.44,
+    "p50_latency_ms": 1.94,
+    "p70_latency_ms": 2.5,
+    "p90_latency_ms": 3.28,
+    "p100_max_latency_ms": 7.24,
     "under_200ms_pct": 100.0
   }
 }

@@ -140,3 +140,19 @@ class ExtractiveQAModel:
                     best_sentence = s_clean
 
         return best_sentence, max_score
+
+if __name__ == "__main__":
+    qa = ExtractiveQAModel()
+    sample_contexts = [
+        {"text": "Retrieval-Augmented Generation (RAG) is an AI framework that retrieves relevant facts from an external knowledge base to enhance LLM responses."}
+    ]
+    result = qa.answer_question("What is Retrieval-Augmented Generation (RAG)?", sample_contexts)
+    print("=" * 60)
+    print("         EXTRACTIVE NEURAL QA MODEL EXECUTION TEST          ")
+    print("=" * 60)
+    print(f"Query: What is Retrieval-Augmented Generation (RAG)?")
+    print(f"Extracted Answer: {result.get('answer')}")
+    print(f"Confidence Score: {result.get('confidence')}")
+    print(f"Inference Time:   {result.get('inference_ms')} ms")
+    print(f"Model Engine:     {result.get('model_name')}")
+    print("=" * 60)
