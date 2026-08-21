@@ -92,6 +92,7 @@ class GuardrailsEngine:
                 "stage": "input_safety",
                 "reason": safe_msg,
                 "abstain": True,
+                "refusal_code": "SAFETY_INJECTION",
                 "refusal_text": "I cannot process this request because it violates safety guardrails."
             }
 
@@ -104,6 +105,7 @@ class GuardrailsEngine:
                 "reason": rel_msg,
                 "relevance_score": rel_score,
                 "abstain": True,
+                "refusal_code": "OFF_TOPIC",
                 "refusal_text": "I cannot answer this question because it is off-topic."
             }
 
@@ -112,6 +114,7 @@ class GuardrailsEngine:
             "stage": "pre_retrieval_passed",
             "reason": "All pre-retrieval guardrails passed.",
             "relevance_score": rel_score,
-            "abstain": False
+            "abstain": False,
+            "refusal_code": "NONE"
         }
 

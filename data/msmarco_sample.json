@@ -68,5 +68,12 @@
     "text": "MS MARCO (Microsoft Machine Reading Comprehension) is a collection of large-scale datasets focused on deep learning for information retrieval, passage ranking, and question answering. MSMARCO-XI features passage collections aligned with Indian and global multilingual benchmarks.",
     "category": "Datasets",
     "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
+  },
+  {
+    "id": "custom_doc_11",
+    "title": "Test Doc",
+    "text": "This is a test passage for dataset testing.",
+    "category": "Test",
+    "url": "https://huggingface.co/datasets/ai4bharat/MSMARCO-XI"
   }
 ]

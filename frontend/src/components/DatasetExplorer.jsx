@@ -14,9 +14,11 @@ export default function DatasetExplorer() {
     try {
       const res = await fetch('/api/dataset');
       const data = await res.json();
-      setDatasetInfo(data);
+      if (res.ok) {
+        setDatasetInfo(data);
+      }
     } catch (err) {
-      console.error(err);
+      console.error("Fetch dataset error:", err);
     }
   };
 
@@ -35,14 +37,18 @@ export default function DatasetExplorer() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: newTitle, text: newText, category: newCategory })
       });
-      await res.json();
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || "Failed to add document");
+      }
       setStatusMsg('Document added & vector index updated!');
       setNewTitle('');
       setNewText('');
       fetchDataset();
       setTimeout(() => setStatusMsg(''), 3000);
     } catch (err) {
-      console.error(err);
+      console.error("Add document error:", err);
+      alert(`Add document error: ${err.message || 'Server error'}`);
     } finally {
       setIsAdding(false);
     }

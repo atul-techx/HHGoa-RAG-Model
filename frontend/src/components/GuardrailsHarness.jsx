@@ -19,9 +19,13 @@ export default function GuardrailsHarness() {
         })
       });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || "Evaluation failed");
+      }
       setResult(data);
     } catch (err) {
       console.error(err);
+      alert(`Guardrail Evaluation error: ${err.message || 'Server error'}`);
     } finally {
       setLoading(false);
     }
@@ -136,7 +140,7 @@ export default function GuardrailsHarness() {
 
               <div className="space-y-1.5 pt-2">
                 <div className="text-[11px] font-bold text-[#ffde00] uppercase">Pipeline Execution Trace:</div>
-                {result.trace.map((t, idx) => (
+                {result.trace && result.trace.map((t, idx) => (
                   <div key={idx} className="p-2 bg-[#024b2d] rounded-lg border border-[#00663c] flex items-center justify-between text-[11px]">
                     <span className="text-[#a3c4b0]">{t.step_name}</span>
                     <div className="flex items-center space-x-2">

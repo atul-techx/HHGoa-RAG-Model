@@ -18,9 +18,12 @@ export default function ChunkingComparator() {
         body: JSON.stringify({ query: testQuery, sample_text: sampleText })
       });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || "Comparison request failed");
+      }
       setComparison(data.strategies);
     } catch (err) {
-      console.error(err);
+      console.error("Chunking comparison error:", err);
     } finally {
       setIsLoading(false);
     }

@@ -32,6 +32,7 @@ class PipelineResponse(BaseModel):
     guardrails_passed: bool
     guardrail_stage: str
     guardrail_reason: str
+    refusal_code: Optional[str] = "NONE"
     grounding_score: float
     relevance_score: float
     retries_count: int
@@ -100,6 +101,7 @@ class ModelHarness:
                 guardrails_passed=False,
                 guardrail_stage=guardrail_eval["stage"],
                 guardrail_reason=guardrail_eval["reason"],
+                refusal_code=guardrail_eval.get("refusal_code", "REJECTED"),
                 grounding_score=0.0,
                 relevance_score=guardrail_eval.get("relevance_score", 0.0),
                 retries_count=0,
@@ -177,11 +179,13 @@ class ModelHarness:
         guardrails_passed = True
         guardrail_stage = "passed"
         guardrail_reason = "All guardrails passed successfully."
+        refusal_code = "NONE"
 
         if not grounded:
             guardrails_passed = False
             guardrail_stage = "hallucination_prevention"
             guardrail_reason = ground_msg
+            refusal_code = "UNGROUNDED_HALLUCINATION"
             final_answer = "Refusing to answer: Generated statement failed hallucination/grounding validation check."
             trace.append(ExecutionTraceStep(
                 step_name="Post-Generation Grounding Guardrail",
@@ -215,6 +219,7 @@ class ModelHarness:
             guardrails_passed=guardrails_passed,
             guardrail_stage=guardrail_stage,
             guardrail_reason=guardrail_reason,
+            refusal_code=refusal_code,
             grounding_score=round(ground_score, 3),
             relevance_score=guardrail_eval.get("relevance_score", 1.0),
             retries_count=retries,

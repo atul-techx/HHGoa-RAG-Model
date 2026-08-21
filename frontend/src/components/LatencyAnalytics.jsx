@@ -11,9 +11,12 @@ export default function LatencyAnalytics() {
     try {
       const res = await fetch(`/api/benchmark?strategy=${selectedStrategy}&num_queries=25`);
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || "Benchmark request failed");
+      }
       setBenchmarkData(data);
     } catch (err) {
-      console.error(err);
+      console.error("Benchmark error:", err);
     } finally {
       setIsRunning(false);
     }

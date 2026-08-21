@@ -69,15 +69,19 @@ export default function VoiceRAGPlayground({ settings }) {
           chunking_strategy: selectedStrategy,
           stt_provider: settings.sttProvider || 'web_speech',
           stt_latency_ms: isListening ? 42.0 : 12.0,
-          custom_model_endpoint: settings.customModelEndpoint || null
+          custom_model_endpoint: settings.customModelEndpoint || null,
+          model_mode: settings.modelMode || 'extractive_qa'
         })
       });
 
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.detail || data.message || "Server error executing query");
+      }
       setResponse(data);
     } catch (err) {
       console.error(err);
-      alert("Failed to execute RAG pipeline query.");
+      alert(`Failed to execute RAG pipeline query: ${err.message || 'Unknown error'}`);
     } finally {
       setIsProcessing(false);
     }

@@ -41,6 +41,7 @@ class DocumentRequest(BaseModel):
     category: str = "General"
 
 @app.get("/api/health")
+@app.get("/health")
 def health_check():
     return {
         "status": "online",
@@ -50,6 +51,7 @@ def health_check():
     }
 
 @app.get("/api/dataset")
+@app.get("/dataset")
 def get_dataset():
     passages = load_dataset()
     return {
@@ -60,6 +62,7 @@ def get_dataset():
     }
 
 @app.post("/api/dataset/add")
+@app.post("/dataset/add")
 def add_document(doc: DocumentRequest):
     new_doc = add_passage(doc.title, doc.text, doc.category)
     # Re-index
@@ -68,6 +71,7 @@ def add_document(doc: DocumentRequest):
     return {"message": "Document added & vector store updated successfully.", "doc": new_doc}
 
 @app.post("/api/query", response_model=PipelineResponse)
+@app.post("/query", response_model=PipelineResponse)
 def execute_rag_query(request: PipelineRequest):
     """Executes full Voice RAG pipeline inside structured harness."""
     try:
@@ -76,6 +80,7 @@ def execute_rag_query(request: PipelineRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/stt")
+@app.post("/stt")
 async def process_stt(
     provider: str = Form("sarvam"),
     api_key: Optional[str] = Form(None),
@@ -97,6 +102,7 @@ async def process_stt(
     }
 
 @app.post("/api/chunking/compare")
+@app.post("/chunking/compare")
 def compare_chunking(req: CompareRequest):
     """Compares the 5 engineered chunking strategies on a sample document or query."""
     doc = {
@@ -140,6 +146,7 @@ def compare_chunking(req: CompareRequest):
     }
 
 @app.get("/api/benchmark")
+@app.get("/benchmark")
 def run_latency_benchmark(strategy: str = "semantic", num_queries: int = 25):
     """Runs automated latency benchmark across real test queries to compute P50, P70, P100."""
     return benchmark_suite.run_benchmark(chunking_strategy=strategy, num_queries=num_queries)
