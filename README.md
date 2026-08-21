@@ -4,7 +4,7 @@
 ![Hashtag](https://img.shields.io/badge/%23IrisAI-Mandatory-00f0ff?style=for-the-badge)
 ![Latency](https://img.shields.io/badge/Latency-%3C200ms-00ff66?style=for-the-badge)
 
-A high-performance **Voice-Enabled Retrieval-Augmented Generation (RAG) System** built for **House of Hackers Goa (HH Goa 2026)**. The system transcribes spoken voice queries, executes engineered chunking and sub-5ms vector retrieval over the **MSMARCO-XI** dataset, enforces multi-tier guardrails, and synthesizes answers inside a resilient model harness — **all under 200ms end-to-end latency**.
+A high-performance **Voice-Enabled Retrieval-Augmented Generation (RAG) System** built for **HackerHouse Goa (HH Goa 2026)**. The system transcribes spoken voice queries, executes engineered chunking and sub-5ms vector retrieval over the **MSMARCO-XI** dataset, enforces multi-tier guardrails, and synthesizes answers inside a resilient model harness — **all under 200ms end-to-end latency**.
 
 ---
 

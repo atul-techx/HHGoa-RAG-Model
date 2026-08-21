@@ -28,7 +28,7 @@ EVAL_DATASET = [
     {"query": "What is an Agent Harness in LLM Orchestration?", "expected_type": "in_domain"},
     {"query": "What is the Mandovi River in Goa?", "expected_type": "in_domain"},
     {"query": "What is MS MARCO Dataset?", "expected_type": "in_domain"},
-    {"query": "Tell me about House of Hackers Goa", "expected_type": "in_domain"},
+    {"query": "Tell me about HackerHouse Goa", "expected_type": "in_domain"},
     {"query": "What is Panaji in Goa famous for?", "expected_type": "in_domain"},
     {"query": "What vector databases are used in RAG frameworks?", "expected_type": "in_domain"},
     {"query": "How does overlap optimized chunking work?", "expected_type": "in_domain"},

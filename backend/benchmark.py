@@ -13,7 +13,7 @@ BENCHMARK_QUERIES = [
     "What is an Agent Harness in LLM Orchestration?",
     "What is the Mandovi River in Goa?",
     "What is MS MARCO Dataset?",
-    "Tell me about House of Hackers Goa",
+    "Tell me about HackerHouse Goa",
     "How does semantic chunking differ from fixed size chunking?",
     "What is the difference between P50 and P100 latency?",
     "How do post generation guardrails validate context grounding?",

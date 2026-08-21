@@ -6,6 +6,13 @@ DATASET_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", 
 
 def load_dataset() -> List[Dict[str, Any]]:
     """Loads the MSMARCO dataset passages."""
+    tmp_path = "/tmp/msmarco_sample.json"
+    if os.path.exists(tmp_path):
+        try:
+            with open(tmp_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
     if not os.path.exists(DATASET_PATH):
         return []
     with open(DATASET_PATH, "r", encoding="utf-8") as f:
@@ -13,9 +20,18 @@ def load_dataset() -> List[Dict[str, Any]]:
 
 def save_dataset(passages: List[Dict[str, Any]]):
     """Saves updated passages to dataset."""
-    os.makedirs(os.path.dirname(DATASET_PATH), exist_ok=True)
-    with open(DATASET_PATH, "w", encoding="utf-8") as f:
-        json.dump(passages, f, indent=2)
+    try:
+        os.makedirs(os.path.dirname(DATASET_PATH), exist_ok=True)
+        with open(DATASET_PATH, "w", encoding="utf-8") as f:
+            json.dump(passages, f, indent=2)
+    except Exception:
+        # Fallback for Vercel read-only filesystem
+        tmp_path = "/tmp/msmarco_sample.json"
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(passages, f, indent=2)
+        except Exception:
+            pass
 
 def add_passage(title: str, text: str, category: str = "General") -> Dict[str, Any]:
     """Adds a new passage to the dataset."""
