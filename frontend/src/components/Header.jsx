@@ -35,14 +35,14 @@ export default function Header({ activeTab, setActiveTab, onOpenSettings }) {
             </div>
           </div>
 
-          {/* Navigation Bar - Responsive Wrap */}
-          <nav className="flex flex-wrap items-center justify-center gap-2 bg-[#024b2d] p-2 rounded-2xl border-2 border-[#00663c]">
+          {/* Navigation Bar - Sleek Single Horizontal Line */}
+          <nav className="flex flex-nowrap items-center gap-1 bg-[#024b2d] p-1.5 rounded-2xl border-2 border-[#00663c] overflow-x-auto shadow-inner max-w-full">
             {[
               { id: 'playground', label: 'Voice RAG', icon: Mic },
-              { id: 'chunking', label: '5 Chunking Strategies', icon: Cpu },
-              { id: 'latency', label: 'P50/P70/P100 Analytics', icon: Zap },
-              { id: 'guardrails', label: 'Guardrails & Harness', icon: ShieldCheck },
-              { id: 'dataset', label: 'MSMARCO Data', icon: Database }
+              { id: 'chunking', label: '5 Strategies', icon: Cpu },
+              { id: 'latency', label: 'Latency Stats', icon: Zap },
+              { id: 'guardrails', label: 'Guardrails', icon: ShieldCheck },
+              { id: 'dataset', label: 'MS MARCO', icon: Database }
             ].map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -50,13 +50,13 @@ export default function Header({ activeTab, setActiveTab, onOpenSettings }) {
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-extrabold transition-all cursor-pointer ${
+                  className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-extrabold whitespace-nowrap transition-all cursor-pointer ${
                     isActive
                       ? 'bg-[#ffde00] text-[#024b2d] shadow-md font-black'
                       : 'text-emerald-100 hover:text-white hover:bg-[#013720]'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
                   <span>{tab.label}</span>
                 </button>
               );
