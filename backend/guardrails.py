@@ -50,8 +50,8 @@ class GuardrailsEngine:
         return True, "Topic relevance check passed.", 1.0
 
     @staticmethod
-    def check_retrieval_confidence(retrieved_chunks: List[Dict[str, Any]], threshold: float = 0.01) -> Tuple[bool, str]:
-        """Ensures retrieved vector context has sufficient similarity score."""
+    def check_retrieval_confidence(retrieved_chunks: List[Dict[str, Any]], query: str = "", threshold: float = 0.02) -> Tuple[bool, str]:
+        """Ensures retrieved vector context has sufficient similarity score and query term coverage."""
         if not retrieved_chunks:
             return False, "Guardrail Triggered: No relevant context found in Vector DB."
         
@@ -59,11 +59,20 @@ class GuardrailsEngine:
         if top_score < threshold:
             return False, f"Guardrail Triggered: Low vector confidence score ({top_score:.3f} < threshold {threshold})."
         
+        if query:
+            q_tokens = [w.lower() for w in re.findall(r'\b\w+\b', query) if w.lower() not in STOP_WORDS and len(w) > 1]
+            if len(q_tokens) >= 2:
+                combined_text = " ".join([c.get("text", "").lower() for c in retrieved_chunks])
+                matched = [t for t in q_tokens if t in combined_text]
+                coverage = len(matched) / len(q_tokens)
+                if coverage < 0.50:
+                    return False, f"Guardrail Triggered: Context lacks essential query terms ({len(matched)}/{len(q_tokens)} matched)."
+
         return True, "Retrieval confidence passed."
 
     @staticmethod
-    def check_answer_grounding(answer: str, context: str) -> Tuple[bool, str, float]:
-        """Post-generation check ensuring generated answer is grounded in retrieved context."""
+    def check_answer_grounding(answer: str, context: str, query: str = "") -> Tuple[bool, str, float]:
+        """Post-generation check ensuring generated answer is grounded in retrieved context and matches query intent."""
         if not answer or "don't have enough information" in answer.lower() or "cannot answer" in answer.lower() or "refusing" in answer.lower() or "abstained" in answer.lower():
             return True, "System abstained safely.", 1.0
 
@@ -78,6 +87,13 @@ class GuardrailsEngine:
 
         if grounding_score < 0.10:
             return False, f"Guardrail Triggered: Answer is not grounded in retrieved context (grounding score {grounding_score:.2f}).", grounding_score
+
+        if query:
+            q_tokens = [w.lower() for w in re.findall(r'\b\w+\b', query) if w.lower() not in STOP_WORDS and len(w) > 1]
+            if len(q_tokens) >= 2:
+                matched_in_context = [t for t in q_tokens if t in context.lower()]
+                if len(matched_in_context) / len(q_tokens) < 0.50:
+                    return False, f"Guardrail Triggered: Context does not cover core query subject/intent.", 0.0
 
         return True, f"Grounding check passed (score {grounding_score:.2f}).", grounding_score
 

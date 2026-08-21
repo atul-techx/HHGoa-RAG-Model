@@ -125,9 +125,11 @@ class ModelHarness:
             retrieved_chunks, ret_ms = self.rag_engine.retrieve(request.query, top_k=request.top_k)
             retrieval_ms += ret_ms
 
-            # Harness Confidence Verification
-            conf_passed, conf_reason = GuardrailsEngine.check_retrieval_confidence(retrieved_chunks)
+            # Harness Confidence & Query Term Verification
+            conf_passed, conf_reason = GuardrailsEngine.check_retrieval_confidence(retrieved_chunks, query=request.query)
             if conf_passed or attempt == max_retries:
+                if not conf_passed:
+                    retrieved_chunks = []  # Clear ungrounded chunks if confidence threshold / term coverage fails
                 if not conf_passed and attempt > 0:
                     retries += 1
                 break
@@ -143,9 +145,9 @@ class ModelHarness:
 
         trace.append(ExecutionTraceStep(
             step_name="Vector DB Retrieval",
-            status="PASSED" if retrieved_chunks else "EMPTY",
+            status="PASSED" if (retrieved_chunks and conf_passed) else "EMPTY",
             duration_ms=round(retrieval_ms, 2),
-            details={"retrieved_count": len(retrieved_chunks), "top_score": retrieved_chunks[0]["score"] if retrieved_chunks else 0.0}
+            details={"retrieved_count": len(retrieved_chunks), "top_score": retrieved_chunks[0]["score"] if retrieved_chunks else 0.0, "confidence_passed": conf_passed}
         ))
 
         # Step 3: Answer Generation via Extractive Neural QA Transformer / Gemini LLM
@@ -172,7 +174,7 @@ class ModelHarness:
         # Step 4: Post-generation Grounding Guardrail Check
         t_g2_start = time.perf_counter()
         context_str = " ".join([c["text"] for c in retrieved_chunks])
-        grounded, ground_msg, ground_score = GuardrailsEngine.check_answer_grounding(raw_answer, context_str)
+        grounded, ground_msg, ground_score = GuardrailsEngine.check_answer_grounding(raw_answer, context_str, query=request.query)
         g2_ms = (time.perf_counter() - t_g2_start) * 1000
 
         final_answer = raw_answer
@@ -181,7 +183,19 @@ class ModelHarness:
         guardrail_reason = "All guardrails passed successfully."
         refusal_code = "NONE"
 
-        if not grounded:
+        if not conf_passed:
+            guardrails_passed = False
+            guardrail_stage = "retrieval_confidence"
+            guardrail_reason = conf_reason
+            refusal_code = "LOW_CONFIDENCE"
+            final_answer = "I don't have enough information in the provided dataset to answer this question."
+            trace.append(ExecutionTraceStep(
+                step_name="Post-Generation Grounding Guardrail",
+                status="REJECTED",
+                duration_ms=round(g2_ms, 2),
+                details={"reason": conf_reason}
+            ))
+        elif not grounded:
             guardrails_passed = False
             guardrail_stage = "hallucination_prevention"
             guardrail_reason = ground_msg

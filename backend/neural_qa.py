@@ -112,9 +112,12 @@ class ExtractiveQAModel:
 
     def _fallback_extractive_span(self, query: str, passages: List[str]) -> Tuple[Optional[str], float]:
         """Neural Token Relevance & Context Match Engine."""
-        stop_words = {"what", "is", "a", "an", "the", "who", "where", "when", "why", "how", "are", "was", "were", "tell", "me", "definition"}
-        q_tokens = [w.lower() for w in re.findall(r'\b\w+\b', query) if w.lower() not in stop_words]
+        stop_words = {"what", "is", "a", "an", "the", "who", "where", "when", "why", "how", "are", "was", "were", "tell", "me", "definition", "of", "in", "to", "for", "with", "by", "on", "at", "about", "did", "does", "do", "its", "it", "this", "that"}
+        q_tokens = [w.lower() for w in re.findall(r'\b\w+\b', query) if w.lower() not in stop_words and len(w) > 1]
         
+        if not q_tokens:
+            return None, 0.0
+
         best_sentence = None
         max_score = 0.0
 
@@ -126,14 +129,18 @@ class ExtractiveQAModel:
                     continue
                 s_words = set(re.findall(r'\b\w+\b', s_clean.lower()))
                 
-                # Calculate keyword overlap score
+                # Calculate keyword overlap
                 matched = [kw for kw in q_tokens if kw in s_words]
                 if not matched:
                     continue
                 
-                overlap_ratio = len(matched) / max(1, len(q_tokens))
-                is_def = 1.0 if any(v in s_words for v in ["is", "are", "refers", "means", "incorporated", "defined"]) else 0.5
-                score = overlap_ratio * 0.7 + is_def * 0.3
+                coverage = len(matched) / len(q_tokens)
+                # Require at least 50% query token coverage when query has multiple content words
+                if len(q_tokens) >= 2 and coverage < 0.50:
+                    continue
+
+                is_def = 1.0 if any(v in s_words for v in ["is", "are", "refers", "means", "incorporated", "defined", "declared", "known"]) else 0.5
+                score = coverage * 0.7 + (len(matched) / max(1, len(s_words))) * 0.1 + is_def * 0.2
 
                 if score > max_score:
                     max_score = score
