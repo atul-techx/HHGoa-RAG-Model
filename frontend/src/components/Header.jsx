@@ -30,8 +30,8 @@ export default function Header({ activeTab, setActiveTab, onOpenSettings }) {
               <span className="text-[8px] sm:text-[10px] font-black tracking-widest text-[#ffde00] uppercase font-mono bg-[#024b2d] px-1.5 py-0.5 rounded border border-[#00663c]">
                 HH GOA
               </span>
-              <span className="hidden xs:inline-block px-1.5 py-0.5 text-[8px] sm:text-[9px] font-extrabold bg-[#ff007a] text-white rounded-full font-mono shadow-sm shrink-0">
-                #IrisAI
+              <span className="inline-block px-1.5 py-0.5 text-[8px] sm:text-[9px] font-extrabold bg-[#ff007a] text-white rounded-full font-mono shadow-sm shrink-0">
+                #RAGInGoa
               </span>
             </div>
           </div>

@@ -48,7 +48,7 @@ export default function Footer() {
               </a>
               
               <div className="px-3 py-1.5 bg-[#ff007a]/20 border border-[#ff007a]/40 text-[#ff007a] rounded-xl text-xs font-extrabold font-mono">
-                #IrisAI
+                #RAGInGoa
               </div>
 
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#ff007a]/20 via-[#ffde00]/20 to-[#00663c]/40 border border-[#ffde00]/30 text-[#ffde00] font-mono text-[11px] font-black uppercase shadow-sm">

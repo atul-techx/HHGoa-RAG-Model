@@ -12,7 +12,7 @@ from backend.stt_service import SpeechToTextService
 from backend.benchmark import LatencyBenchmarkSuite
 
 app = FastAPI(
-    title="Iris Voice-Enabled RAG API (#IrisAI)",
+    title="Iris Voice-Enabled RAG API (#RAGInGoa)",
     description="Sub-200ms Iris Voice-Enabled RAG Pipeline with Engineered Chunking, Guardrails, Harness, & Latency Benchmarks.",
     version="1.0.0"
 )
@@ -44,7 +44,7 @@ class DocumentRequest(BaseModel):
 def health_check():
     return {
         "status": "online",
-        "system": "Iris Voice RAG Pipeline (#IrisAI)",
+        "system": "Iris Voice RAG Pipeline (#RAGInGoa)",
         "indexed_chunks": len(rag_engine.indexed_chunks),
         "target_latency": "< 200ms"
     }
