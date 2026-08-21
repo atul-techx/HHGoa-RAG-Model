@@ -28,6 +28,8 @@ class VectorRAGEngine:
         self._tfidf_matrix = None
         self._vectorizer = TfidfVectorizer(stop_words='english', ngram_range=(1, 2))
         self._generator = AnswerGenerator()
+        from backend.neural_qa import ExtractiveQAModel
+        self._qa_engine = ExtractiveQAModel()
         self._load_metadata_index()
 
     def _load_metadata_index(self):
@@ -72,7 +74,7 @@ class VectorRAGEngine:
     def retrieve(self, query: str, top_k: int = 3) -> Tuple[List[Dict[str, Any]], float]:
         """Performs sub-5ms vector retrieval over HH-Goa-Task-2 index with typo tolerance."""
         start_time = time.perf_counter()
-        if not self._indexed_chunks or self._tfidf_matrix is None:
+        if not self._indexed_chunks or self._tfidf_matrix is None or not hasattr(self._vectorizer, "vocabulary_"):
             return [], 0.0
 
         query_corr = correct_query_typos(query)
@@ -101,9 +103,7 @@ class VectorRAGEngine:
 
         # Mode 1: Extractive Neural QA Model (DistilBERT SQuAD Transformer)
         if model_mode in ["extractive_qa", "hybrid_auto"]:
-            from backend.neural_qa import ExtractiveQAModel
-            qa_engine = ExtractiveQAModel()
-            qa_res = qa_engine.answer_question(query, retrieved_chunks)
+            qa_res = self._qa_engine.answer_question(query, retrieved_chunks)
             
             if qa_res.get("grounded") and qa_res.get("confidence", 0.0) >= 0.15:
                 gen_ms = (time.perf_counter() - start_time) * 1000

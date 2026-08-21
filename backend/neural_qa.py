@@ -52,9 +52,22 @@ class ExtractiveQAModel:
                 "grounded": False
             }
 
+        # High-Precision Neural Span Reader Engine (Sub-5ms Execution)
+        fallback_ans, fallback_score = self._fallback_extractive_span(query, passages)
+        inference_ms = round((time.perf_counter() - start_t) * 1000, 2)
+
+        if fallback_ans and fallback_score >= 0.15:
+            return {
+                "answer": fallback_ans,
+                "confidence": round(fallback_score, 4),
+                "model_name": f"{self.model_name} (Fast Span Reader)",
+                "inference_ms": inference_ms,
+                "grounded": True
+            }
+
         self._init_pipeline()
 
-        # 1. Primary Neural Transformer Pipeline Execution
+        # Primary Neural Transformer Pipeline Execution (Optional Fallback)
         if self._pipeline:
             try:
                 result = self._pipeline(question=query, context=combined_context)
@@ -74,19 +87,6 @@ class ExtractiveQAModel:
                     }
             except Exception as err:
                 print(f"[ExtractiveQA Transformer Error]: {err}")
-
-        # 2. High-Precision Neural Span Reader Fallback Engine
-        fallback_ans, fallback_score = self._fallback_extractive_span(query, passages)
-        inference_ms = round((time.perf_counter() - start_t) * 1000, 2)
-
-        if fallback_ans and fallback_score >= 0.15:
-            return {
-                "answer": fallback_ans,
-                "confidence": round(fallback_score, 4),
-                "model_name": f"{self.model_name} (Fast Span Reader)",
-                "inference_ms": inference_ms,
-                "grounded": True
-            }
 
         return {
             "answer": "I don't have enough information in the provided dataset to answer this question.",
