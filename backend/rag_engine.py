@@ -174,16 +174,15 @@ class VectorRAGEngine:
         retrieval_ms = (time.perf_counter() - start_time) * 1000
         return results, round(retrieval_ms, 2)
 
-    def generate_answer(self, query: str, retrieved_chunks: List[Dict[str, Any]], custom_model_endpoint: str = None, model_mode: str = "extractive_qa") -> Tuple[str, float, Dict[str, Any]]:
-        """Synthesizes grounded answer using Extractive Neural QA Transformer Model or Gemini LLM."""
+    def generate_answer(self, query: str, retrieved_chunks: List[Dict[str, Any]] = None, custom_model_endpoint: str = None, model_mode: str = "generative_llm") -> Tuple[str, float, Dict[str, Any]]:
+        """Synthesizes answer using Gemini Main Model or Extractive Neural QA Transformer Model."""
         start_time = time.perf_counter()
-        if not retrieved_chunks:
-            return "I don't have enough information in the provided dataset to answer this question.", 1.0, {"confidence": 0.0, "model": "none"}
+        if retrieved_chunks is None:
+            retrieved_chunks = []
 
-        # Mode 1: Extractive Neural QA Model (DistilBERT SQuAD Transformer)
-        if model_mode in ["extractive_qa", "hybrid_auto"]:
+        # Mode 1: Extractive Neural QA Model (DistilBERT SQuAD Transformer) - Optional manual selection
+        if model_mode == "extractive_qa" and retrieved_chunks:
             qa_res = self._qa_engine.answer_question(query, retrieved_chunks)
-            
             if qa_res.get("grounded") and qa_res.get("confidence", 0.0) >= 0.15:
                 gen_ms = (time.perf_counter() - start_time) * 1000
                 return qa_res["answer"], round(gen_ms, 2), {
@@ -191,26 +190,22 @@ class VectorRAGEngine:
                     "model": qa_res.get("model_name", "distilbert-squad"),
                     "mode": "extractive_qa"
                 }
-            
-            # If hybrid_auto and confidence is low, fall through to Generative LLM
-            if model_mode != "hybrid_auto":
-                gen_ms = (time.perf_counter() - start_time) * 1000
-                return qa_res.get("answer", "I don't have enough information in the provided dataset to answer this question."), round(gen_ms, 2), {
-                    "confidence": qa_res.get("confidence", 0.0),
-                    "model": qa_res.get("model_name", "distilbert-squad"),
-                    "mode": "extractive_qa"
-                }
 
-        # Mode 2: Generative LLM (Gemini 2.5 Flash / Custom API)
+        # Main Generative Model (Gemini 2.5 Flash / Custom API) - Default for all questions
         gen_result = self._generator.generate(query=query, contexts=retrieved_chunks, force_fallback=True)
-        answer = gen_result.get("answer", "I don't have enough information in the provided dataset to answer this question.")
+        answer = gen_result.get("answer", "")
         gen_ms = (time.perf_counter() - start_time) * 1000
         
-        return answer, round(gen_ms, 2), {
-            "confidence": 0.92 if gen_result.get("grounded") else 0.0,
-            "model": "gemini-2.5-flash",
-            "mode": "generative_llm"
-        }
+        if answer and "don't have enough information" not in answer.lower():
+            return answer, round(gen_ms, 2), {
+                "confidence": 0.95,
+                "model": "gemini-2.5-flash",
+                "mode": "generative_llm"
+            }
+
+        # Fallback to general knowledge answer
+        gk_ans, gk_ms, tele = self.generate_general_knowledge_answer(query, custom_model_endpoint)
+        return gk_ans, round(gen_ms + gk_ms, 2), tele
 
     def generate_general_knowledge_answer(self, query: str, custom_model_endpoint: str = None) -> Tuple[str, float, Dict[str, Any]]:
         """Generates general knowledge response for queries outside the local vector database using LLM / Parametric AI Engine."""

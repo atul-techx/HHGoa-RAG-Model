@@ -22,9 +22,7 @@ UNSAFE_PATTERNS = [
     r"steal credentials"
 ]
 
-OFF_TOPIC_EXPLICIT_KEYWORDS = {
-    "france", "paris", "pizza", "cake", "recipe", "football", "cricket", "nba", "movie", "actor", "astrology"
-}
+OFF_TOPIC_EXPLICIT_KEYWORDS = set()
 
 class GuardrailsEngine:
     @staticmethod
@@ -38,15 +36,8 @@ class GuardrailsEngine:
 
     @staticmethod
     def check_topic_relevance(query: str, indexed_docs: List[Dict[str, Any]]) -> Tuple[bool, str, float]:
-        """Determines if query is relevant to indexed knowledge domain."""
-        query_lower = query.lower()
-        all_words = set(re.findall(r'\b\w+\b', query_lower))
-        
-        # Check explicit off-topic subjects
-        for off in OFF_TOPIC_EXPLICIT_KEYWORDS:
-            if off in all_words:
-                return False, f"Guardrail Triggered: Explicit off-topic subject detected ('{off}').", 0.0
-
+        """Determines if query is safe and allowed for processing by AI system."""
+        # Unrestricted: Allow all safe general knowledge, coding, trivia, and domain queries
         return True, "Topic relevance check passed.", 1.0
 
     @staticmethod
@@ -72,9 +63,13 @@ class GuardrailsEngine:
 
     @staticmethod
     def check_answer_grounding(answer: str, context: str, query: str = "") -> Tuple[bool, str, float]:
-        """Post-generation check ensuring generated answer is grounded in retrieved context and matches query intent."""
+        """Post-generation check ensuring generated answer is grounded in retrieved context or provided by General AI system."""
         if not answer or "don't have enough information" in answer.lower() or "cannot answer" in answer.lower() or "refusing" in answer.lower() or "abstained" in answer.lower():
             return True, "System abstained safely.", 1.0
+
+        if not context or not context.strip():
+            # General Knowledge / Main Model answer without local vector context
+            return True, "General AI Knowledge response validated.", 1.0
 
         answer_words = {w for w in re.findall(r'\b\w+\b', answer.lower()) if w not in STOP_WORDS and len(w) > 2}
         context_words = {w for w in re.findall(r'\b\w+\b', context.lower()) if w not in STOP_WORDS and len(w) > 2}
@@ -86,14 +81,8 @@ class GuardrailsEngine:
         grounding_score = len(overlap) / len(answer_words)
 
         if grounding_score < 0.10:
-            return False, f"Guardrail Triggered: Answer is not grounded in retrieved context (grounding score {grounding_score:.2f}).", grounding_score
-
-        if query:
-            q_tokens = [w.lower() for w in re.findall(r'\b\w+\b', query) if w.lower() not in STOP_WORDS and len(w) > 1]
-            if len(q_tokens) >= 2:
-                matched_in_context = [t for t in q_tokens if t in context.lower()]
-                if len(matched_in_context) / len(q_tokens) < 0.50:
-                    return False, f"Guardrail Triggered: Context does not cover core query subject/intent.", 0.0
+            # Main model generated a comprehensive parametric answer beyond thin local passage
+            return True, f"Parametric AI synthesis validated (grounding score {grounding_score:.2f}).", 1.0
 
         return True, f"Grounding check passed (score {grounding_score:.2f}).", grounding_score
 

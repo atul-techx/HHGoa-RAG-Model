@@ -32,16 +32,16 @@ export default function ModelSettingsModal({ isOpen, onClose, settings, setSetti
             </label>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {[
-                { id: 'extractive_qa', label: 'DistilBERT Neural QA', desc: 'Local Transformer (<50ms)' },
-                { id: 'generative_llm', label: 'Gemini LLM', desc: 'Generative Synthesis' },
-                { id: 'hybrid_auto', label: 'Hybrid Auto', desc: 'Neural QA + LLM Fallback' }
+                { id: 'generative_llm', label: 'Gemini Main AI Model', desc: 'Full AI System (Default)' },
+                { id: 'extractive_qa', label: 'DistilBERT Local QA', desc: 'Local Span Extractor' },
+                { id: 'hybrid_auto', label: 'Hybrid Auto', desc: 'Smart AI + Local Span' }
               ].map((mode) => (
                 <button
                   key={mode.id}
                   type="button"
                   onClick={() => setSettings({ ...settings, modelMode: mode.id })}
                   className={`p-2.5 sm:p-3 rounded-xl border-2 text-left transition cursor-pointer ${
-                    (settings.modelMode || 'extractive_qa') === mode.id
+                    (settings.modelMode || 'generative_llm') === mode.id
                       ? 'border-[#ff007a] bg-[#ff007a]/10 text-[#092014] font-bold'
                       : 'border-[#024b2d]/20 bg-white text-[#4a6855] hover:border-[#024b2d]'
                   }`}

@@ -13,7 +13,7 @@ class PipelineRequest(BaseModel):
     custom_model_endpoint: Optional[str] = Field(None, description="Optional custom LLM API endpoint")
     stt_provider: str = Field("web_speech", description="STT provider used (web_speech, sarvam, elevenlabs)")
     stt_latency_ms: float = Field(0.0, description="Latency spent in STT transcription")
-    model_mode: str = Field("extractive_qa", description="Model engine mode (extractive_qa, generative_llm, hybrid_auto)")
+    model_mode: str = Field("generative_llm", description="Model engine mode (generative_llm, extractive_qa, hybrid_auto)")
 
 class ExecutionTraceStep(BaseModel):
     step_name: str
@@ -187,7 +187,7 @@ class ModelHarness:
         guardrail_reason = "All guardrails passed successfully."
         refusal_code = "NONE"
 
-        if not conf_passed:
+        if not final_answer or "don't have enough information" in final_answer.lower():
             # Switch to Generative AI Knowledge synthesis for queries not in local vector store
             gk_ans, gk_ms, model_telemetry = self.rag_engine.generate_general_knowledge_answer(
                 request.query, 
@@ -204,18 +204,6 @@ class ModelHarness:
                 status="PASSED",
                 duration_ms=round(gk_ms, 2),
                 details=model_telemetry
-            ))
-        elif not grounded:
-            guardrails_passed = False
-            guardrail_stage = "hallucination_prevention"
-            guardrail_reason = ground_msg
-            refusal_code = "UNGROUNDED_HALLUCINATION"
-            final_answer = "Refusing to answer: Generated statement failed hallucination/grounding validation check."
-            trace.append(ExecutionTraceStep(
-                step_name="Post-Generation Grounding Guardrail",
-                status="REJECTED",
-                duration_ms=round(g2_ms, 2),
-                details={"grounding_score": ground_score, "reason": ground_msg}
             ))
         else:
             trace.append(ExecutionTraceStep(

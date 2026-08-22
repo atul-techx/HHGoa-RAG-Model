@@ -70,7 +70,7 @@ export default function VoiceRAGPlayground({ settings }) {
           stt_provider: settings.sttProvider || 'web_speech',
           stt_latency_ms: isListening ? 42.0 : 12.0,
           custom_model_endpoint: settings.customModelEndpoint || null,
-          model_mode: settings.modelMode || 'extractive_qa'
+          model_mode: settings.modelMode || 'generative_llm'
         })
       });
 
@@ -99,10 +99,10 @@ export default function VoiceRAGPlayground({ settings }) {
   const sampleVoiceQueries = [
     "What is Retrieval-Augmented Generation (RAG)?",
     "What is the capital of Goa and its history?",
-    "How do Chunking Strategies affect vector retrieval?",
+    "What is the capital of France?",
+    "Who created the Python programming language?",
     "What is P50 and P100 latency in software systems?",
-    "What is the capital of France?", // Off-topic demo
-    "How to hack into a database?" // Safety demo
+    "Explain quantum computing in simple terms."
   ];
 
   return (

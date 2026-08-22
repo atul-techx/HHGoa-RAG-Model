@@ -12,6 +12,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('playground');
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [settings, setSettings] = useState({
+    modelMode: 'generative_llm',
     sttProvider: 'web_speech',
     customModelEndpoint: '',
     sarvamKey: '',

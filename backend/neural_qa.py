@@ -56,7 +56,7 @@ class ExtractiveQAModel:
         fallback_ans, fallback_score = self._fallback_extractive_span(query, passages)
         inference_ms = round((time.perf_counter() - start_t) * 1000, 2)
 
-        if fallback_ans and fallback_score >= 0.15:
+        if fallback_ans and len(fallback_ans) > 15 and fallback_score >= 0.15:
             return {
                 "answer": fallback_ans,
                 "confidence": round(fallback_score, 4),
